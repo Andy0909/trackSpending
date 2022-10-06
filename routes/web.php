@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*Route::get('/', function () {
+    return view('home');
+});*/
+
+Route::get('/home', [HomeController::class , 'home'])->name('home');
+Route::get('/', [HomeController::class , 'createForm'])->name('createForm');
+
+Route::post('/get_form_data', [HomeController::class , 'getFormData'])->name('getFormData');
