@@ -1,20 +1,4 @@
 <!DOCTYPE html>
-<style>
-    .btn-circle.btn-lg {
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        padding: 6px 0;
-        font-size: 12px;
-        line-height: 1.428571429;
-        border-radius: 15px;
-    }
-    .form_style{
-        width: 800px;
-        height: 30px;
-        margin: 0 auto;
-    }
-</style>
 <html lang="en">
     @extends('header')
     <body id="page-top">
@@ -27,7 +11,7 @@
         <!-- Masthead-->
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">新增分帳系統</h2>
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">登入會員</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -43,36 +27,21 @@
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="newForm" action="/get_form_data" method="POST">
+                        <form id="login" action="/login" method="POST">
                             @csrf
-                            <!-- Date input-->
+                            <!-- Email input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." data-sb-validations="required" />
-                                <label for="date">日期：</label>
-                                <div class="invalid-feedback" data-sb-feedback="date:required">A date is required.</div>
+                                <input class="form-control" id="email" name="email" type="email" placeholder="Enter email..." data-sb-validations="required" />
+                                <label for="email">信箱：</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
                             </div>
-                            <!-- Name input-->
+
+                            <!-- Password input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." data-sb-validations="required" />
-                                <label for="name">名稱：</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                <input class="form-control" id="password" name="password" type="password" placeholder="Enter password..." data-sb-validations="required" />
+                                <label for="password">密碼：</label>
+                                <div class="invalid-feedback" data-sb-feedback="password:required">A password is required.</div>
                             </div>
-                            <!-- Member input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="member" name="member[]" type="text" placeholder="Enter member..." data-sb-validations="required" />
-                                <label for="member">成員：</label>
-                                <div class="invalid-feedback" data-sb-feedback="member:required">A member is required.</div>
-                            </div>
-                            
-                            <div class="form-floating mb-3">
-                                <input class="form-control" name="member[]" type="text" placeholder="Enter member..." data-sb-validations="required" />
-                                <label for="member">成員：</label>
-                                <div class="invalid-feedback" data-sb-feedback="member:required">A member is required.</div>
-                            </div>
-                            
-                            <div id="newMember">
-                                <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg">+</button>
-                            </div><br><br>
 
                             <!-- Submit success message-->
                             <!---->
@@ -83,14 +52,16 @@
                                     <div class="fw-bolder">Form submission successful!</div>
                                 </div>
                             </div>
+
                             <!-- Submit error message-->
                             <!---->
                             <!-- This is what your users will see when there is-->
                             <!-- an error submitting the form-->
                             <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                            
                             <!-- Submit Button-->
                             <!-- <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>-->
-                            <div><input class="btn btn-primary" id="submit" type="submit" value="Send"></div>
+                            <div><center><input class="btn btn-primary" id="submit" type="submit" value="登入"></center></div>
                         </form>
                     </div>
                 </div>
@@ -108,16 +79,5 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        <script>
-            $('#addMember').click(function(){
-                $('#newMember').prepend(`
-                    <div class="form-floating mb-3">
-                        <input class="form-control" name="member[]" type="text" placeholder="Enter member..." data-sb-validations="required" />
-                        <label for="member">成員：</label>
-                        <div class="invalid-feedback" data-sb-feedback="member:required">A member is required.</div>
-                    </div>
-                `)
-            })
-        </script>
     </body>
 </html>

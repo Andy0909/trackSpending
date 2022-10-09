@@ -11,9 +11,10 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function createForm()
+    public function createTrackSpendingSystem()
     {
-        return view('form');
+        $user_data = session()->get('response');
+        return view('createTrackSpendingSystem', ['user_data' => $user_data]);
     }
 
     public function getFormData(Request $request)

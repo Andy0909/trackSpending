@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,23 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('welcome');
+});
 
-/*Route::get('/', function () {
-    return view('home');
-});*/
-
-Route::get('/home', [HomeController::class , 'home'])->name('home');
-Route::get('/', [HomeController::class , 'createForm'])->name('createForm');
+Route::get('/TrackSpendingSystem', [HomeController::class , 'home'])->name('home');
+Route::get('/createTrackSpendingSystem', [HomeController::class , 'createTrackSpendingSystem'])->name('createTrackSpendingSystem');
 
 Route::post('/get_form_data', [HomeController::class , 'getFormData'])->name('getFormData');
+
+//註冊
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'getRegisterData']);
+
+//登入
+Route::get('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'getLoginData']);
+
+//登出
+Route::post('/logout', [AuthController::class, 'logout']);
+
