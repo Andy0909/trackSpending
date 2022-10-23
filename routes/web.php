@@ -14,21 +14,24 @@ use App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//首頁
 Route::get('/', function () {
     return view('welcome');
 });
 
+//分帳系統首頁
 Route::get('/TrackSpendingSystem', [HomeController::class , 'home'])->name('home');
-Route::get('/createTrackSpendingSystem', [HomeController::class , 'createTrackSpendingSystem'])->name('createTrackSpendingSystem');
 
-Route::post('/get_form_data', [HomeController::class , 'getFormData'])->name('getFormData');
+//新增分帳系統
+Route::get('/createTrackSpendingSystem', [HomeController::class , 'createTrackSpendingSystem'])->name('createTrackSpendingSystem');
+Route::post('/getEvent', [HomeController::class , 'getEvent'])->name('getEvent');
 
 //註冊
-Route::get('/register', [AuthController::class, 'register']);
+Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'getRegisterData']);
 
 //登入
-Route::get('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'getLoginData']);
 
 //登出

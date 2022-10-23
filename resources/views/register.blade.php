@@ -21,6 +21,15 @@
             </div>
         </header>
 
+        @if($errors->any())
+            <center>
+                <h4>
+                {{ implode('', $errors->all(':key')) }}
+                {{ implode('', $errors->all(':message')) }}
+                </h4>
+            </center>
+        @endif
+
         <!-- form Section-->
         <section class="page-section" id="form">
             <div class="container">
@@ -31,26 +40,26 @@
                             @csrf
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." data-sb-validations="required" />
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." required/>
                                 <label for="name">姓名：</label>
                                 <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                             </div>
 
                             <!-- Email input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="email" name="email" type="email" placeholder="Enter email..." data-sb-validations="required" />
+                                <input class="form-control" id="email" name="email" type="email" placeholder="Enter email..." required/>
                                 <label for="email">信箱：</label>
                                 <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
                             </div>
 
                             <!-- Password input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="password" name="password" type="password" placeholder="Enter password..." data-sb-validations="required" />
+                                <input class="form-control" id="password" name="password" type="password" placeholder="Enter password..." required/>
                                 <label for="password">密碼：</label>
                                 <div class="invalid-feedback" data-sb-feedback="password:required">A password is required.</div>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="password_confirmation" name="password_confirmation" type="password" placeholder="Enter password again..." data-sb-validations="required" />
+                                <input class="form-control" id="password_confirmation" name="password_confirmation" type="password" placeholder="Enter password again..." required/>
                                 <label for="password_confirmation">確認密碼：</label>
                                 <div class="invalid-feedback" data-sb-feedback="password_confirmation:required">A password is required.</div>
                             </div>

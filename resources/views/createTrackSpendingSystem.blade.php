@@ -24,10 +24,10 @@
                 <a class="navbar-brand">分帳軟體</a>
                 <form id="logout" action="/logout" method="POST">
                     @csrf
-                    <input type="hidden" id="userId" name="userId" value="{{$user_data['userId']}}">
+                    <input type="hidden" id="userId" name="userId" value="{{$userId}}">
                 </form>
                 <ul style="color:white" class="nav navbar-nav navbar-right">
-                    <li class="navbar-brand">{{$user_data['userName']}}</li>&emsp;&emsp;
+                    <li class="navbar-brand">{{$userName}}</li>&emsp;&emsp;
                     <li class="navbar-brand"><button class="btn btn-light" type="button" onclick="logout()">登出</button></li>
                 </ul>
             </div>
@@ -51,7 +51,7 @@
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="newForm" action="/get_form_data" method="POST">
+                        <form id="newForm" action="/getEvent" method="POST">
                             @csrf
                             <!-- Date input-->
                             <div class="form-floating mb-3">

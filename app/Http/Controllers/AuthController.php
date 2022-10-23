@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
 use Exception;
 
 class AuthController extends Controller
 {
     private $userRepository;
+    private $sessionService;
 
-    public function __construct(UserRepository $userRepository) 
+    public function __construct(UserRepository $userRepository, SessionService $sessionService) 
     {
         $this->userRepository = $userRepository;
+        $this->sessionService = $sessionService;
     }
 
     public function register()
@@ -32,10 +34,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed',
         ]);
         if ($validator->fails()) {
-            return response([
-                'code'    => 400,
-                'message' => $validator->errors(),
-            ]);
+            return redirect()->back()->withErrors($validator);
         }
         try {
             $this->userRepository->createUser([
@@ -43,24 +42,19 @@ class AuthController extends Controller
                 'email'    => $request['email'],
                 'password' => Hash::make($request['password']),
             ]);
-            $response = [
-                'code'    => 201,
-                'message' => '註冊成功，趕快登入建立分帳系統吧！',
-            ];
         }
         catch (Exception $e) {
-            $response =[
-                'code'    => 500,
-                'message' => $e->getMessage(),
-            ];
-            return response($response);
+            return redirect()->back()->with(['errors' => $e->getMessage()]);
         }
-        return redirect('/');
+
+        return redirect()->route('login')->with('message', '註冊成功，趕快登入建立分帳系統吧！');
     }
 
     public function login()
     {
-        return view('login');
+        $message = is_null(session()->get('message')) ? '' : session()->get('message');
+
+        return view('login')->with(['message' => $message]);
     }
 
     public function getLoginData(Request $request)
@@ -72,28 +66,22 @@ class AuthController extends Controller
         try{
             $user = User::where('email','=',$form['email'])->first();
             if(!$user || !Hash::check($form['password'],$user->password)){
-                $response =[
-                    'code' => 401,
-                    'message' => '登入失敗',
-                ];
-                return response($response);
+                return response('登入失敗');
             }
             
             $token = $user->createToken('token')->plainTextToken;
+
             $response =[
-                'code' => 201,
                 'userId' => $user->id,
                 'userName' => $user->name,
                 'userEmail' => $user->email,
                 'token' => $token,
             ];
+
+            $this->sessionService->setSession($response);
         }
         catch(Exception $e){
-            $response =[
-                'code'    => 500,
-                'message' => $e->getMessage(),
-            ];
-            return response($response);
+            return redirect()->back()->with(['errors' => $e->getMessage()]);
         }
         return redirect()->route('createTrackSpendingSystem')->with('response',$response);
     }
@@ -103,17 +91,11 @@ class AuthController extends Controller
         try{
             $user = $this->userRepository->getUserById($request->all()['userId']);
             $user->tokens()->delete();
+            $this->sessionService->removeSession();
         }
         catch(Exception $e){
-            $response =[
-                'message' => $e->getMessage()
-            ];
-            return response($response);
+            return redirect()->back()->with(['errors' => $e->getMessage()]);
         }
-        $response =[
-            'code' => 201,
-            'message' => '您已登出'
-        ];
         return redirect('/login');
     }
 }

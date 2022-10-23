@@ -23,6 +23,15 @@
 
         <!-- form Section-->
         <section class="page-section" id="form">
+            <center><h4>{{$message}}</h4></center>
+            @if($errors->any())
+                <center>
+                    <h4>
+                    {{ implode('', $errors->all(':key')) }}
+                    {{ implode('', $errors->all(':message')) }}
+                    </h4>
+                </center>
+            @endif
             <div class="container">
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
