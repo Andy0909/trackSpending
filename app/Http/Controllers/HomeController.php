@@ -29,8 +29,13 @@ class HomeController extends Controller
     {
         $userName = $this->sessionService->getSession('userName');
         $userId = $this->sessionService->getSession('userId');
+        $userEvent = $this->eventRepository->getEventByUserId($userId);
 
-        return view('createTrackSpendingSystem', ['userName' => $userName, 'userId' => $userId]);
+        return view('createTrackSpendingSystem', [
+            'userName'  => $userName,
+            'userId'    => $userId,
+            'userEvent' => $userEvent,
+        ]);
     }
 
     public function getEvent(Request $request)

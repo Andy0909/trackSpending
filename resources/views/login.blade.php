@@ -21,17 +21,14 @@
             </div>
         </header>
 
+        <!-- error message -->
+        @if (count($errors)>0)
+            <center><h4 style="color: red">{{$errors}}</h4></center>
+        @endif
+
         <!-- form Section-->
         <section class="page-section" id="form">
-            <center><h4>{{$message}}</h4></center>
-            @if($errors->any())
-                <center>
-                    <h4>
-                    {{ implode('', $errors->all(':key')) }}
-                    {{ implode('', $errors->all(':message')) }}
-                    </h4>
-                </center>
-            @endif
+            <center><h4>{{$registerSuccessMessage}}</h4></center>
             <div class="container">
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">

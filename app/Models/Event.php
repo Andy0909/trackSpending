@@ -12,4 +12,14 @@ class Event extends Model
     protected $fillable = [
         'id', 'user_id', 'event_name', 'event_date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function member()
+    {
+        return $this->hasMany(Member::class);
+    }
 }

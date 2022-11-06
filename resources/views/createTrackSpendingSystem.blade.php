@@ -28,6 +28,14 @@
                 </form>
                 <ul style="color:white" class="nav navbar-nav navbar-right">
                     <li class="navbar-brand">{{$userName}}</li>&emsp;&emsp;
+                    <li class="navbar-brand">
+                        <select class="form-select" id="record">
+                            <option selected>您的紀錄</option>
+                            @foreach ($userEvent as $event)
+                            <option value="{{$event->id}}">{{$event->event_name}}</option>
+                            @endforeach
+                        </select>
+                    </li>&emsp;
                     <li class="navbar-brand"><button class="btn btn-light" type="button" onclick="logout()">登出</button></li>
                 </ul>
             </div>
@@ -126,8 +134,13 @@
                     </div>
                 `)
             })
-        </script>
-        <script>
+
+            $("#record").change(function(){
+                if ($(this).val() > 0) {
+                    window.location.href = "/TrackSpendingSystem"; //+ $('#record :selected').text();
+                }
+            });
+
             function logout(){
                 $("#logout").submit();
             }

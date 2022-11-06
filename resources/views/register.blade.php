@@ -21,13 +21,11 @@
             </div>
         </header>
 
-        @if($errors->any())
-            <center>
-                <h4>
-                {{ implode('', $errors->all(':key')) }}
-                {{ implode('', $errors->all(':message')) }}
-                </h4>
-            </center>
+        <!-- error message -->
+        @if ($errors->has('email'))
+            <center><h4 style="color: red">信箱已註冊</h4></center>
+        @elseif ($errors->has('password'))
+            <center><h4 style="color: red">密碼輸入不一致</h4></center>
         @endif
 
         <!-- form Section-->

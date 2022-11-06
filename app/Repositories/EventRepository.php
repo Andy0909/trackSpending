@@ -12,6 +12,11 @@ class EventRepository implements EventRepositoryInterface
         return Event::findOrFail($eventId);
     }
 
+    public function getEventByUserId($userId) 
+    {
+        return Event::where('user_id', '=', $userId)->get();
+    }
+
     public function createEvent(array $eventData) 
     {
         return Event::create($eventData);

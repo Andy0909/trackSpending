@@ -14,6 +14,7 @@ class AuthController extends Controller
 {
     private $userRepository;
     private $sessionService;
+    const ERROR_MESSAGE = '網頁發生錯誤，請稍後再試，謝謝。';
 
     public function __construct(UserRepository $userRepository, SessionService $sessionService) 
     {
@@ -28,9 +29,9 @@ class AuthController extends Controller
 
     public function getRegisterData(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+        $validator = Validator::make($request->all(),[
+            'name'     => 'required|string',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed',
         ]);
         if ($validator->fails()) {
@@ -44,44 +45,38 @@ class AuthController extends Controller
             ]);
         }
         catch (Exception $e) {
-            return redirect()->back()->with(['errors' => $e->getMessage()]);
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
         }
 
-        return redirect()->route('login')->with('message', '註冊成功，趕快登入建立分帳系統吧！');
+        return redirect()->route('login')->with('registerSuccessMessage', '註冊成功，趕快登入建立分帳系統吧！');
     }
 
     public function login()
     {
-        $message = is_null(session()->get('message')) ? '' : session()->get('message');
+        $registerSuccessMessage = is_null(session()->get('registerSuccessMessage')) ? '' : session()->get('registerSuccessMessage');
 
-        return view('login')->with(['message' => $message]);
+        return view('login')->with(['registerSuccessMessage' => $registerSuccessMessage]);
     }
 
     public function getLoginData(Request $request)
     {
-        $form = $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        $loginData = $request->all();
         try{
-            $user = User::where('email','=',$form['email'])->first();
-            if(!$user || !Hash::check($form['password'],$user->password)){
-                return response('登入失敗');
+            $user = User::where('email', '=', $loginData ['email'])->first();
+            if(!$user || !Hash::check($loginData ['password'], $user->password)){
+                return redirect()->back()->withErrors('密碼輸入錯誤');
             }
-            
             $token = $user->createToken('token')->plainTextToken;
-
             $response =[
-                'userId' => $user->id,
-                'userName' => $user->name,
+                'userId'    => $user->id,
+                'userName'  => $user->name,
                 'userEmail' => $user->email,
-                'token' => $token,
+                'token'     => $token,
             ];
-
             $this->sessionService->setSession($response);
         }
         catch(Exception $e){
-            return redirect()->back()->with(['errors' => $e->getMessage()]);
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
         }
         return redirect()->route('createTrackSpendingSystem')->with('response',$response);
     }
@@ -94,7 +89,7 @@ class AuthController extends Controller
             $this->sessionService->removeSession();
         }
         catch(Exception $e){
-            return redirect()->back()->with(['errors' => $e->getMessage()]);
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
         }
         return redirect('/login');
     }
