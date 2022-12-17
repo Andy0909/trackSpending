@@ -25,6 +25,7 @@
                 <form id="logout" action="/logout" method="POST">
                     @csrf
                     <input type="hidden" id="userId" name="userId" value="{{$userId}}">
+                    <input type="hidden" id="token" name="token" value="{{$token}}">
                 </form>
                 <ul style="color:white" class="nav navbar-nav navbar-right">
                     <li class="navbar-brand">{{$userName}}</li>&emsp;&emsp;
@@ -35,7 +36,7 @@
                             <option value="{{$event->id}}">{{$event->event_name}}</option>
                             @endforeach
                         </select>
-                    </li>&emsp;
+                    </li>&emsp;&emsp;
                     <li class="navbar-brand"><button class="btn btn-light" type="button" onclick="logout()">登出</button></li>
                 </ul>
             </div>
@@ -90,22 +91,6 @@
                                 <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg">+</button>
                             </div><br><br>
 
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                            <!-- Submit Button-->
-                            <!-- <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>-->
                             <div><input class="btn btn-primary" id="submit" type="submit" value="Send"></div>
                         </form>
                     </div>
@@ -136,9 +121,7 @@
             })
 
             $("#record").change(function(){
-                if ($(this).val() > 0) {
-                    window.location.href = "/TrackSpendingSystem"; //+ $('#record :selected').text();
-                }
+                window.location.href = "/TrackSpendingSystem" + "/" + $(this).val() + "/" + $('#record :selected').text();
             });
 
             function logout(){

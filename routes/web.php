@@ -20,7 +20,9 @@ Route::get('/', function () {
 });
 
 //分帳系統首頁
-Route::get('/TrackSpendingSystem', [HomeController::class , 'home'])->name('home');
+Route::get('/TrackSpendingSystem/{eventId}/{eventName}', [HomeController::class , 'home'])->name('home');
+Route::post('/getTrackSpendingSystem', [HomeController::class , 'getTrackSpendingSystem'])->name('getTrackSpendingSystem');
+Route::post('/getItem', [HomeController::class , 'getItem'])->name('getItem');
 
 //新增分帳系統
 Route::get('/createTrackSpendingSystem', [HomeController::class , 'createTrackSpendingSystem'])->name('createTrackSpendingSystem');

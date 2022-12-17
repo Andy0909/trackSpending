@@ -22,4 +22,9 @@ class Event extends Model
     {
         return $this->hasMany(Member::class);
     }
+
+    public function item()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

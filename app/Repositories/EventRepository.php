@@ -9,7 +9,7 @@ class EventRepository implements EventRepositoryInterface
 {
     public function getEventById($eventId) 
     {
-        return Event::findOrFail($eventId);
+        return Event::where('id', '=', $eventId)->with('member')->with('item')->get();
     }
 
     public function getEventByUserId($userId) 
