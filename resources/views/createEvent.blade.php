@@ -91,6 +91,7 @@
                                 <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg">+</button>
                             </div><br><br>
 
+                            <!-- Submit Button-->
                             <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
                         </form>
                     </div>
@@ -111,7 +112,7 @@
             })
 
             $("#record").change(function(){
-                window.location.href = "/TrackSpendingSystem" + "/" + $(this).val() + "/" + $('#record :selected').text();
+                window.location.href = "/trackSpending" + "/" + $(this).val() + "/" + $('#record :selected').text();
             });
 
             function logout(){

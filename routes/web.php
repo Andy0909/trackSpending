@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //註冊、登入頁
 Route::get('/', function () {
     return view('welcome');
@@ -34,7 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/createEvent', [HomeController::class , 'createEventPage'])->name('createEventPage');
 Route::post('/createEvent', [HomeController::class , 'createEventProcess'])->name('createEventProcess');
 
-//分帳系統首頁
-Route::get('/TrackSpendingSystem/{eventId}/{eventName}', [HomeController::class , 'home'])->name('home');
-Route::post('/getTrackSpendingSystem', [HomeController::class , 'getTrackSpendingSystem'])->name('getTrackSpendingSystem');
-Route::post('/getItem', [HomeController::class , 'getItem'])->name('getItem');
+//分帳系統頁面
+Route::get('/trackSpending/{eventId}/{eventName}', [HomeController::class , 'trackSpendingPage'])->name('trackSpendingPage');
+Route::post('/createTrackSpending', [HomeController::class , 'createTrackSpendingProcess'])->name('createTrackSpendingProcess');
+Route::post('/createItem', [HomeController::class , 'createItemProcess'])->name('createItemProcess');

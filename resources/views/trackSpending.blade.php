@@ -5,11 +5,12 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top">分帳軟體</a>
-                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
+                <a class="navbar-brand">分帳軟體</a>
+                <form id="logout" action="/logout" method="POST">
+                    @csrf
+                    <input type="hidden" id="userId" name="userId" value="{{$userId}}">
+                    <input type="hidden" id="token" name="token" value="{{$token}}">
+                </form>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="navbar-brand">{{$userName}}</li>&emsp;
@@ -21,6 +22,7 @@
                 </div>
             </div>
         </nav>
+
         <!-- Masthead-->
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
@@ -34,12 +36,11 @@
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <!-- Masthead Subheading-->
-                <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
             </div>
         </header>
+
         <!-- Portfolio Section-->
-        <section class="page-section portfolio" id="portfolio">
+        <section class="page-section bg-light mb-0" id="portfolio">
             <div class="container">
                 <!-- Portfolio Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">成員</h2>
@@ -49,26 +50,23 @@
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Grid Items-->
+                <br><br>
+                <!-- Portfolio Item 1-->
                 <div class="row justify-content-center">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                @foreach ($eventMember as $key => $member)
-                                    @if ($key > 0 && $key % 3 === 0)
-                                        </tr>
-                                        <tr>
-                                    @endif
-                                    <td>{{$member['name']}}</td>
-                                    @if ($loop->last)
-                                        </tr>
-                                    @endif
-                                @endforeach
-                        </tbody>
-                    </table>
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+                                    <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+                                    <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
         <!-- About Section-->
         <section class="page-section bg-primary text-white mb-0" id="about">
             <div class="container">
@@ -81,10 +79,10 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <br><br>
-                <!-- Portfolio Item 1-->
+                <!-- Portfolio Item 2-->
                 <div class="row justify-content-center">
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>
@@ -98,6 +96,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Contact Section-->
         <section class="page-section" id="contact">
             <div class="container">
@@ -112,45 +111,43 @@
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="newItem" action="/getItem" method="POST">
+                        <form id="newItemForm" action="/createItem" method="POST">
                             @csrf
 
-                            <input class="form-control" id="eventId" name="eventId" type="hidden" value="{{$eventId}}" data-sb-validations="required"/>
+                            <input class="form-control" id="eventId" name="eventId" type="hidden" value="{{$eventId}}" required/>
 
                             <!-- Date-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." data-sb-validations="required"/>
+                                <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." required/>
                                 <label for="date">日期：</label>
-                                <div class="invalid-feedback" data-sb-feedback="date:required">日期為必填</div>
                             </div>
 
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="item" name="item" type="text" placeholder="Enter item..." data-sb-validations="required"/>
+                                <input class="form-control" id="item" name="item" type="text" placeholder="Enter item..." required/>
                                 <label for="item">品項：</label>
-                                <div class="invalid-feedback" data-sb-feedback="item:required">品項為必填</div>
                             </div>
 
-                            <!-- Email address input-->
+                            <!-- price input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="price" name="price" type="number" placeholder="" data-sb-validations="required"/>
+                                <input class="form-control" id="price" name="price" type="number" placeholder="Enter price..." required/>
                                 <label for="price">金額：</label>
-                                <div class="invalid-feedback" data-sb-feedback="price:required">金額為必填</div>
-                                <div class="invalid-feedback" data-sb-feedback="price:number">請填入數字</div>
                             </div>
                             
                             <!-- payer input-->
-                            <label for="payer">誰付錢：</label>
-                            <select class="form-select" id="payer" name="payer" data-sb-validations="required">
-                                <option value="">請選擇</option>
+                            <div class="form-floating mb-3">
+                                <label for="payer">誰付錢：</label>
+                            </div><br><br><br>
+                            <select class="form-select" id="payer" name="payer" required>
                                 @foreach ($eventMember as $member)
                                     <option value={{$member['id']}}>{{$member['name']}}</option>
                                 @endforeach
-                            </select><br>
-                            <div class="invalid-feedback" data-sb-feedback="payer:required">誰付錢為必填</div>
+                            </select>
 
                             <!-- average input-->
-                            <label for="average">分給誰：</label>
+                            <div class="form-floating mb-3">
+                                <label for="average">分給誰：</label>
+                            </div><br><br>
                             <select name="average[]" id="average" class="selectpicker" multiple>
                                 @foreach ($eventMember as $member)
                                     <option value={{$member['id']}}>{{$member['name']}}</option>
@@ -164,7 +161,7 @@
                             </div>
 
                             <!-- Submit Button-->
-                            <div><input class="btn btn-primary" id="submit" type="submit" value="Send"></div>
+                            <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
                         </form>
                     </div>
                 </div>
@@ -176,6 +173,30 @@
         <!-- Portfolio Modals-->
         <!-- Portfolio Modal 1-->
         <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                    <div class="modal-body text-center pb-5">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        @foreach ($eventMember as $key => $member)
+                                        <tr>
+                                            <td>{{$member['name']}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Modal 2-->
+        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
@@ -210,18 +231,12 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Multi Select-->
         <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
-        <!-- Core theme JS-->
-        <script src="{{asset('js/scripts.js')}}"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script>
             function logout(){
                 $("#logout").submit();
             }
-            new MultiSelectTag('average')  // id
+
+            new MultiSelectTag('average')  //id
         </script>
     </body>
 </html>

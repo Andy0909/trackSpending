@@ -27,41 +27,56 @@ class HomeController extends Controller
         $this->itemRepository = $itemRepository;
     }
 
-    public function home($eventId, $eventName)
+    public function trackSpendingPage($eventId, $eventName)
     {
         $userName = $this->sessionService->getSession('userName');
+        $userId = $this->sessionService->getSession('userId');
+        $token = $this->sessionService->getSession('token');
         $eventData = $this->eventRepository->getEventById($eventId);
+
+        if (!$userName || !$userId || !$token) {
+            return redirect('/');
+        }
+
         if ($eventData->first()['event_name'] === $eventName) {
             $eventName = $eventData->first()['event_name'];
             $eventMember = $eventData->first()['member'];
-            return view('home')->with([
+            return view('trackSpending')->with([
                 'eventId'     => $eventId,
                 'eventName'   => $eventName,
                 'eventMember' => $eventMember,
                 'userName'    => $userName,
+                'userId'      => $userId,
+                'token'       => $token,
             ]);
         }
+        else {
+            return redirect()->route('createEventPage');
+        }
+
         return redirect()->back();
     }
 
-    public function getTrackSpendingSystem(Request $request)
+    public function createTrackSpendingProcess(Request $request)
     {
         $trackSpendingSystem = $request->all();
         $eventData = $this->eventRepository->getEventById($trackSpendingSystem['eventId']);
+
         if ($eventData->first()['event_name'] === $trackSpendingSystem['eventName']) {
             $eventName = $eventData->first()['event_name'];
-            return redirect()->route('home')->with('eventData',$eventName);
+            return redirect()->route('trackSpendingPage')->with('eventData',$eventName);
         }
         else {
             return redirect()->back();
         }
     }
 
-    public function getItem(Request $request)
+    public function createItemProcess(Request $request)
     {
         $itemData = $request->all();
 
         DB::beginTransaction();
+
         try {
             collect($itemData['average'])->each(function ($averageMember) use ($itemData) {
                 $this->itemRepository->createItem([
@@ -128,6 +143,6 @@ class HomeController extends Controller
             return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
 
-        return redirect()->route('home');
+        return redirect()->route('trackSpendingPage');
     }
 }
