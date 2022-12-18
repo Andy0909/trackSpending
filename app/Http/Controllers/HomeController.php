@@ -12,7 +12,12 @@ use Exception;
 
 class HomeController extends Controller
 {
+    const ERROR_MESSAGE = '網頁發生錯誤，請稍後再試，謝謝。';
+
     private $sessionService;
+    private $eventRepository;
+    private $memberRepository;
+    private $itemRepository;
 
     public function __construct(SessionService $sessionService, EventRepository $eventRepository, MemberRepository $memberRepository, ItemRepository $itemRepository) 
     {
@@ -56,8 +61,6 @@ class HomeController extends Controller
     {
         $itemData = $request->all();
 
-        file_put_contents('itemData.php',print_r($itemData,true));
-
         DB::beginTransaction();
         try {
             collect($itemData['average'])->each(function ($averageMember) use ($itemData) {
@@ -80,14 +83,18 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function createTrackSpendingSystem()
+    public function createEventPage()
     {
         $userName = $this->sessionService->getSession('userName');
         $userId = $this->sessionService->getSession('userId');
         $token = $this->sessionService->getSession('token');
         $userEvent = $this->eventRepository->getEventByUserId($userId);
 
-        return view('createTrackSpendingSystem', [
+        if (!$userName || !$userId || !$token) {
+            return redirect('/');
+        }
+
+        return view('createEvent', [
             'userName'  => $userName,
             'userId'    => $userId,
             'token'     => $token,
@@ -95,11 +102,12 @@ class HomeController extends Controller
         ]);
     }
 
-    public function getEvent(Request $request)
+    public function createEventProcess(Request $request)
     {
         $eventData = $request->all();
 
         DB::beginTransaction();
+
         try {
             $event = $this->eventRepository->createEvent([
                 'user_id' => $this->sessionService->getSession('userId'),
@@ -107,7 +115,7 @@ class HomeController extends Controller
                 'event_date' => $eventData['date'],
             ]);
 
-            collect($eventData['member'])->each(function ($member) use ($event){
+            collect($eventData['member'])->each(function ($member) use ($event) {
                 $this->memberRepository->createMember([
                     'event_id' => $event->id,
                     'name' => $member,
@@ -117,7 +125,7 @@ class HomeController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->back();
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
 
         return redirect()->route('home');

@@ -12,31 +12,37 @@ use Exception;
 
 class AuthController extends Controller
 {
-    private $userRepository;
-    private $sessionService;
     const ERROR_MESSAGE = '網頁發生錯誤，請稍後再試，謝謝。';
 
+    private $userRepository;
+    private $sessionService;
+    
     public function __construct(UserRepository $userRepository, SessionService $sessionService) 
     {
         $this->userRepository = $userRepository;
         $this->sessionService = $sessionService;
     }
 
-    public function register()
+    public function registerPage()
     {
         return view('register');
     }
 
-    public function getRegisterData(Request $request)
+    public function registerProcess(Request $request)
     {
         $validator = Validator::make($request->all(),[
             'name'     => 'required|string',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed',
+        ],[
+            'password.confirmed' => '密碼不一致',
+            'email.unique'       => '信箱已註冊',
         ]);
+
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
+        
         try {
             $this->userRepository->createUser([
                 'name'     => $request['name'],
@@ -45,52 +51,57 @@ class AuthController extends Controller
             ]);
         }
         catch (Exception $e) {
-            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
 
         return redirect()->route('login')->with('registerSuccessMessage', '註冊成功，趕快登入建立分帳系統吧！');
     }
 
-    public function login()
+    public function loginPage()
     {
         $registerSuccessMessage = is_null(session()->get('registerSuccessMessage')) ? '' : session()->get('registerSuccessMessage');
 
         return view('login')->with(['registerSuccessMessage' => $registerSuccessMessage]);
     }
 
-    public function getLoginData(Request $request)
+    public function loginProcess(Request $request)
     {
         $loginData = $request->all();
-        try{
-            $user = User::where('email', '=', $loginData ['email'])->first();
-            if(!$user || !Hash::check($loginData ['password'], $user->password)){
-                return redirect()->back()->withErrors('密碼輸入錯誤');
+
+        try {
+            $user = $this->userRepository->getUserByEmail($loginData['email']);
+
+            if (!$user || !Hash::check($loginData['password'], $user->password)) {
+                return redirect()->back()->withErrors('密碼輸入錯誤')->withInput();
             }
+
             $token = $user->createToken('token')->plainTextToken;
-            $response =[
+            $userData = [
                 'userId'    => $user->id,
                 'userName'  => $user->name,
                 'userEmail' => $user->email,
                 'token'     => $token,
             ];
-            $this->sessionService->setSession($response);
+            $this->sessionService->setSession($userData);
         }
-        catch(Exception $e){
-            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
+        catch (Exception $e) {
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
-        return redirect()->route('createTrackSpendingSystem')->with('response',$response);
+
+        return redirect()->route('createEventPage');
     }
 
     public function logout(Request $request)
     {
-        try{
+        try {
             $user = $this->userRepository->getUserById($request->all()['userId']);
             $user->tokens()->delete();
             $this->sessionService->removeSession();
         }
-        catch(Exception $e){
+        catch (Exception $e) {
             return redirect()->back()->withErrors(self::ERROR_MESSAGE);
         }
+
         return redirect('/login');
     }
 }

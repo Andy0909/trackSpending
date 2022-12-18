@@ -13,14 +13,14 @@ class SessionService
         });
     }
 
-    public function getSession(string $getItem): string
+    public function getSession(string $item): string
     {
-        return Session::get($getItem);
+        return is_null(Session::get($item)) ? '' : Session::get($item);
     }
 
-    public function forgetSession(string $forgetItem): void
+    public function forgetSession(string $item): void
     {
-        Session::forget($forgetItem);
+        Session::forget($item);
     }
     
     public function removeSession(): void

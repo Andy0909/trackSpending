@@ -14,28 +14,27 @@ use App\Http\Controllers\AuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//首頁
+//註冊、登入頁
 Route::get('/', function () {
     return view('welcome');
 });
+
+//註冊
+Route::get('/register', [AuthController::class, 'registerPage'])->name('registerPage');
+Route::post('/register', [AuthController::class, 'registerProcess'])->name('registerProcess');
+
+//登入
+Route::get('/login', [AuthController::class, 'loginPage'])->name('loginPage');
+Route::post('/login', [AuthController::class, 'loginProcess'])->name('loginProcess');
+
+//登出
+Route::post('/logout', [AuthController::class, 'logout']);
+
+//新增 event 頁面
+Route::get('/createEvent', [HomeController::class , 'createEventPage'])->name('createEventPage');
+Route::post('/createEvent', [HomeController::class , 'createEventProcess'])->name('createEventProcess');
 
 //分帳系統首頁
 Route::get('/TrackSpendingSystem/{eventId}/{eventName}', [HomeController::class , 'home'])->name('home');
 Route::post('/getTrackSpendingSystem', [HomeController::class , 'getTrackSpendingSystem'])->name('getTrackSpendingSystem');
 Route::post('/getItem', [HomeController::class , 'getItem'])->name('getItem');
-
-//新增分帳系統
-Route::get('/createTrackSpendingSystem', [HomeController::class , 'createTrackSpendingSystem'])->name('createTrackSpendingSystem');
-Route::post('/getEvent', [HomeController::class , 'getEvent'])->name('getEvent');
-
-//註冊
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'getRegisterData']);
-
-//登入
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'getLoginData']);
-
-//登出
-Route::post('/logout', [AuthController::class, 'logout']);
-

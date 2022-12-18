@@ -41,6 +41,7 @@
                 </ul>
             </div>
         </nav>
+
         <!-- Masthead-->
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
@@ -60,38 +61,37 @@
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="newForm" action="/getEvent" method="POST">
+                        <form id="eventForm" action="/createEvent" method="POST">
                             @csrf
                             <!-- Date input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." data-sb-validations="required" />
+                                <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." required/>
                                 <label for="date">日期：</label>
-                                <div class="invalid-feedback" data-sb-feedback="date:required">A date is required.</div>
                             </div>
+
                             <!-- Name input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." data-sb-validations="required" />
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." required/>
                                 <label for="name">名稱：</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                             </div>
+
                             <!-- Member input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="member" name="member[]" type="text" placeholder="Enter member..." data-sb-validations="required" />
+                                <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
                                 <label for="member">成員：</label>
-                                <div class="invalid-feedback" data-sb-feedback="member:required">A member is required.</div>
                             </div>
-                            
+
+                            <!-- Member input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" name="member[]" type="text" placeholder="Enter member..." data-sb-validations="required" />
+                                <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
                                 <label for="member">成員：</label>
-                                <div class="invalid-feedback" data-sb-feedback="member:required">A member is required.</div>
                             </div>
                             
                             <div id="newMember">
                                 <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg">+</button>
                             </div><br><br>
 
-                            <div><input class="btn btn-primary" id="submit" type="submit" value="Send"></div>
+                            <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
                         </form>
                     </div>
                 </div>
@@ -99,23 +99,13 @@
         </section>
         <!-- Footer-->
         @extends('footer')
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script>
             $('#addMember').click(function(){
                 $('#newMember').prepend(`
                     <div class="form-floating mb-3">
-                        <input class="form-control" name="member[]" type="text" placeholder="Enter member..." data-sb-validations="required" />
+                        <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
                         <label for="member">成員：</label>
-                        <div class="invalid-feedback" data-sb-feedback="member:required">A member is required.</div>
                     </div>
                 `)
             })
