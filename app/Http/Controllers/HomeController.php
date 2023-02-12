@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\SessionService;
+use App\Services\CalculateAveragePrice;
 use App\Repositories\EventRepository;
 use App\Repositories\MemberRepository;
 use App\Repositories\ItemRepository;
@@ -15,13 +16,15 @@ class HomeController extends Controller
     const ERROR_MESSAGE = '網頁發生錯誤，請稍後再試，謝謝。';
 
     private $sessionService;
+    private $calculateAveragePrice;
     private $eventRepository;
     private $memberRepository;
     private $itemRepository;
 
-    public function __construct(SessionService $sessionService, EventRepository $eventRepository, MemberRepository $memberRepository, ItemRepository $itemRepository) 
+    public function __construct(SessionService $sessionService, CalculateAveragePrice $calculateAveragePrice, EventRepository $eventRepository, MemberRepository $memberRepository, ItemRepository $itemRepository) 
     {
         $this->sessionService = $sessionService;
+        $this->calculateAveragePrice = $calculateAveragePrice;
         $this->eventRepository = $eventRepository;
         $this->memberRepository = $memberRepository;
         $this->itemRepository = $itemRepository;
@@ -41,20 +44,23 @@ class HomeController extends Controller
         if ($eventData->first()['event_name'] === $eventName) {
             $eventName = $eventData->first()['event_name'];
             $eventMember = $eventData->first()['member'];
+            $items = $eventData->first()['item'];
+            $averageResult = $this->calculateAveragePrice->getAveragePriceResult($items);
+
             return view('trackSpending')->with([
-                'eventId'     => $eventId,
-                'eventName'   => $eventName,
-                'eventMember' => $eventMember,
-                'userName'    => $userName,
-                'userId'      => $userId,
-                'token'       => $token,
+                'userName'      => $userName,
+                'userId'        => $userId,
+                'token'         => $token,
+                'eventId'       => $eventId,
+                'eventName'     => $eventName,
+                'eventMember'   => $eventMember,
+                'items'         => $items,
+                'averageResult' => $averageResult,
             ]);
         }
         else {
             return redirect()->route('createEventPage');
         }
-
-        return redirect()->back();
     }
 
     public function createTrackSpendingProcess(Request $request)
@@ -143,6 +149,6 @@ class HomeController extends Controller
             return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
 
-        return redirect()->route('trackSpendingPage');
+        return redirect()->route('trackSpendingPage', ['eventId' => $event->id, 'eventName' => $eventData['name']]);
     }
 }
