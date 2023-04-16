@@ -39,3 +39,4 @@ Route::post('/createEvent', [HomeController::class , 'createEventProcess'])->nam
 Route::get('/trackSpending/{eventId}/{eventName}', [HomeController::class , 'trackSpendingPage'])->name('trackSpendingPage');
 Route::post('/createTrackSpending', [HomeController::class , 'createTrackSpendingProcess'])->name('createTrackSpendingProcess');
 Route::post('/createItem', [HomeController::class , 'createItemProcess'])->name('createItemProcess');
+Route::post('/updateItem', [HomeController::class , 'updateItemProcess'])->name('updateItemProcess');

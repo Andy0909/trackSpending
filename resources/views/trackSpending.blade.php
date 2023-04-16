@@ -14,24 +14,30 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="navbar-brand">{{$userName}}</li>&emsp;
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">成員</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">結餘</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">新增紀錄</a></li>&emsp;
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/createEvent">首頁</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#member">成員</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#list">金額明細</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#spend">分帳結果</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#createRecord">新增項目</a></li>&emsp;
                         <li class="navbar-brand"><button class="btn btn-light" type="button" onclick="logout()">登出</button></li>
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav><br><br>
+
+        @if ($errors->count())
+            @foreach ($errors->all() as $error)
+                <script>alert("{{ $error }}");</script>
+            @endforeach
+        @endif
 
         <!-- Masthead-->
-        <header class="masthead bg-primary text-white text-center">
+        <header class="page-section bg-light mb-0">
             <div class="container d-flex align-items-center flex-column">
-                <!-- Masthead Avatar Image-->
-                <img class="masthead-avatar mb-5" src="{{asset('assets/img/avataaars.svg')}}" alt="..." />
                 <!-- Masthead Heading-->
                 <h1 class="masthead-heading text-uppercase mb-0">{{$eventName}}</h1>
                 <!-- Icon Divider-->
-                <div class="divider-custom divider-light">
+                <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
@@ -39,22 +45,22 @@
             </div>
         </header>
 
-        <!-- Portfolio Section-->
-        <section class="page-section bg-light mb-0" id="portfolio">
+        <!-- member Section-->
+        <section class="page-section bg-primary text-white mb-0" id="member">
             <div class="container">
-                <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">成員</h2>
+                <!-- member Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-white">成員</h2>
                 <!-- Icon Divider-->
-                <div class="divider-custom">
+                <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
                 <br><br>
-                <!-- Portfolio Item 1-->
+                <!-- member Item -->
                 <div class="row justify-content-center">
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#memberModal">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
                                     <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
@@ -67,11 +73,39 @@
             </div>
         </section>
 
-        <!-- About Section-->
-        <section class="page-section bg-primary text-white mb-0" id="about">
+        <!-- list Section-->
+        <section class="page-section bg-light mb-0" id="list">
             <div class="container">
-                <!-- About Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-white">結餘</h2>
+                <!-- member Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">金額明細</h2>
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+                <br><br>
+                <!-- list Item -->
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#listModal">
+                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- spend Section-->
+        <section class="page-section bg-primary text-white mb-0" id="spend">
+            <div class="container">
+                <!-- spend Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-white">分帳結果</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -79,10 +113,10 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <br><br>
-                <!-- Portfolio Item 2-->
+                <!-- spend Item -->
                 <div class="row justify-content-center">
                     <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
+                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#spendModal">
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>
@@ -97,18 +131,18 @@
             </div>
         </section>
 
-        <!-- Contact Section-->
-        <section class="page-section" id="contact">
+        <!-- createRecord Section-->
+        <section class="page-section" id="createRecord">
             <div class="container">
-                <!-- Contact Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">新增紀錄</h2>
+                <!-- createRecord Section Heading-->
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">新增項目</h2>
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <!-- Contact Section Form-->
+                <!-- createRecord Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
                         <form id="newItemForm" action="/createItem" method="POST">
@@ -125,19 +159,19 @@
                             <!-- Name input-->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="item" name="item" type="text" placeholder="Enter item..." required/>
-                                <label for="item">品項：</label>
+                                <label for="item">名稱：</label>
                             </div>
 
                             <!-- price input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="price" name="price" type="number" placeholder="Enter price..." required/>
+                                <input class="form-control" id="price" name="price" type="number" min="1" placeholder="Enter price..." required/>
                                 <label for="price">金額：</label>
                             </div>
                             
                             <!-- payer input-->
-                            <div class="form-floating mb-3">
-                                <label for="payer">誰付錢：</label>
-                            </div><br><br><br>
+                            <div class="form-floating mb-3" style="padding-bottom: 8%">
+                                <label for="payer">付錢者：</label>
+                            </div>
                             <select class="form-select" id="payer" name="payer" required>
                                 @foreach ($eventMember as $member)
                                     <option value={{$member['id']}}>{{$member['name']}}</option>
@@ -145,85 +179,33 @@
                             </select>
 
                             <!-- average input-->
-                            <div class="form-floating mb-3">
-                                <label for="average">分給誰：</label>
-                            </div><br><br>
+                            <div class="form-floating mb-3" style="padding-bottom: 8%">
+                                <label for="average">分攤者：</label>
+                            </div>
                             <select name="average[]" id="average" class="selectpicker" multiple>
                                 @foreach ($eventMember as $member)
                                     <option value={{$member['id']}}>{{$member['name']}}</option>
                                 @endforeach
                             </select>
-                            
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" name="message" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem"></textarea>
-                                <label for="message">註記：</label>
-                            </div>
 
                             <!-- Submit Button-->
-                            <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
+                            <div><center><input class="btn btn-primary" style="margin-top: 5%" id="submit" type="submit" value="Send"></center></div>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
+        
+        <!-- member Modal -->
+        @extends('viewModal/memberModal')
+        <!-- list Modal -->
+        @extends('viewModal/listModal')
+        <!-- spend Modal -->
+        @extends('viewModal/spendModal')
+
         <!-- Footer-->
         @extends('footer')
-        
-        <!-- Portfolio Modals-->
-        <!-- Portfolio Modal 1-->
-        <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
-                    <div class="modal-body text-center pb-5">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        @foreach ($eventMember as $key => $member)
-                                        <tr>
-                                            <td>{{$member['name']}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Portfolio Modal 2-->
-        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
-                    <div class="modal-body text-center pb-5">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        @foreach ($averageResult as $payer => $item)
-                                            @foreach ($item as $shareMember => $value)
-                                                <tr>
-                                                    @if ($value < 0)
-                                                        <td>{{$payer}} 欠 {{$shareMember}} {{abs($value)}} 元</td>
-                                                    @else
-                                                        <td>{{$shareMember}} 欠 {{$payer}} {{$value}} 元</td>
-                                                    @endif
-                                                </tr>
-                                            @endforeach
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Multi Select-->

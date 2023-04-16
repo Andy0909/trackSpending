@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\SessionService;
 use App\Services\CalculateAveragePrice;
+use App\Services\GetSpendListService;
 use App\Repositories\EventRepository;
 use App\Repositories\MemberRepository;
 use App\Repositories\ItemRepository;
@@ -17,20 +18,37 @@ class HomeController extends Controller
 
     private $sessionService;
     private $calculateAveragePrice;
+    private $getSpendListService;
     private $eventRepository;
     private $memberRepository;
     private $itemRepository;
 
-    public function __construct(SessionService $sessionService, CalculateAveragePrice $calculateAveragePrice, EventRepository $eventRepository, MemberRepository $memberRepository, ItemRepository $itemRepository) 
+    /**
+     * construct
+     * @param SessionService $sessionService
+     * @param CalculateAveragePrice $calculateAveragePrice
+     * @param GetSpendListService $getSpendListService
+     * @param EventRepository $eventRepository
+     * @param MemberRepository $memberRepository
+     * @param ItemRepository $itemRepository
+     */
+    public function __construct(SessionService $sessionService, CalculateAveragePrice $calculateAveragePrice, GetSpendListService $getSpendListService, EventRepository $eventRepository, MemberRepository $memberRepository, ItemRepository $itemRepository) 
     {
         $this->sessionService = $sessionService;
         $this->calculateAveragePrice = $calculateAveragePrice;
+        $this->getSpendListService = $getSpendListService;
         $this->eventRepository = $eventRepository;
         $this->memberRepository = $memberRepository;
         $this->itemRepository = $itemRepository;
     }
 
-    public function trackSpendingPage($eventId, $eventName)
+    /**
+     * trackSpendingPage
+     * @param int $eventId
+     * @param string $eventName
+     * @return void
+     */
+    public function trackSpendingPage(int $eventId, string $eventName)
     {
         $userName = $this->sessionService->getSession('userName');
         $userId = $this->sessionService->getSession('userId');
@@ -45,7 +63,8 @@ class HomeController extends Controller
             $eventName = $eventData->first()['event_name'];
             $eventMember = $eventData->first()['member'];
             $items = $eventData->first()['item'];
-            $averageResult = $this->calculateAveragePrice->getAveragePriceResult($items);
+            $spendList = empty($items) ? [] : $this->getSpendListService->formatItems($items);
+            $averageResult = empty($spendList) ? [] : $this->calculateAveragePrice->calculateAveragePrice($spendList);
 
             return view('trackSpending')->with([
                 'userName'      => $userName,
@@ -55,6 +74,7 @@ class HomeController extends Controller
                 'eventName'     => $eventName,
                 'eventMember'   => $eventMember,
                 'items'         => $items,
+                'spendList'     => $spendList,
                 'averageResult' => $averageResult,
             ]);
         }
@@ -63,6 +83,11 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     * createTrackSpendingProcess
+     * @param Request $request
+     * @return void
+     */
     public function createTrackSpendingProcess(Request $request)
     {
         $trackSpendingSystem = $request->all();
@@ -77,6 +102,11 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     * createItemProcess
+     * @param Request $request
+     * @return void
+     */
     public function createItemProcess(Request $request)
     {
         $itemData = $request->all();
@@ -91,14 +121,46 @@ class HomeController extends Controller
                     'price'        => $itemData['price'],
                     'payer'        => $itemData['payer'],
                     'share_member' => $averageMember,
-                    'message'      => $itemData['message'],
                 ]);
             });
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->back();
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * updateItemProcess
+     * @param Request $request
+     * @return void
+     */
+    public function updateItemProcess(Request $request)
+    {
+        $itemData = $request->all();
+
+        DB::beginTransaction();
+
+        try {
+            $this->itemRepository->deleteItemByItemName($itemData['eventId'], $itemData['updateItem']);
+
+            collect($itemData['updateAverage'])->each(function ($averageMember) use ($itemData) {
+                $this->itemRepository->createItem([
+                    'event_id'     => $itemData['eventId'],
+                    'item_name'    => $itemData['updateItem'],
+                    'price'        => $itemData['updatePrice'],
+                    'payer'        => $itemData['updatePayer'],
+                    'share_member' => $averageMember,
+                ]);
+            });
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
         }
 
         return redirect()->back();
@@ -123,6 +185,11 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * createEventProcess
+     * @param Request $request
+     * @return void
+     */
     public function createEventProcess(Request $request)
     {
         $eventData = $request->all();

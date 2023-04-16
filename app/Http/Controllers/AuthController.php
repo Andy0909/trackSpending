@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\SessionService;
 use Illuminate\Http\Request;
@@ -14,9 +13,16 @@ class AuthController extends Controller
 {
     const ERROR_MESSAGE = '網頁發生錯誤，請稍後再試，謝謝。';
 
+    /** @var  UserRepository */
     private $userRepository;
+
+    /** @var  UserRepository */
     private $sessionService;
     
+    /**
+     * @param UserRepository $userRepository
+     * @param SessionService $sessionService
+     */
     public function __construct(UserRepository $userRepository, SessionService $sessionService) 
     {
         $this->userRepository = $userRepository;
@@ -28,6 +34,11 @@ class AuthController extends Controller
         return view('register');
     }
 
+    /**
+     * registerProcess
+     * @param Request $request
+     * @return void
+     */
     public function registerProcess(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -54,7 +65,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
 
-        return redirect()->route('login')->with('registerSuccessMessage', '註冊成功，趕快登入建立分帳系統吧！');
+        return redirect()->route('loginPage')->with('registerSuccessMessage', '註冊成功，趕快登入建立分帳系統吧！');
     }
 
     public function loginPage()
@@ -64,6 +75,11 @@ class AuthController extends Controller
         return view('login')->with(['registerSuccessMessage' => $registerSuccessMessage]);
     }
 
+    /**
+     * loginProcess
+     * @param Request $request
+     * @return void
+     */
     public function loginProcess(Request $request)
     {
         $loginData = $request->all();
@@ -91,6 +107,11 @@ class AuthController extends Controller
         return redirect()->route('createEventPage');
     }
 
+    /**
+     * logout
+     * @param Request $request
+     * @return void
+     */
     public function logout(Request $request)
     {
         try {

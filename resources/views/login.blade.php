@@ -22,12 +22,12 @@
         </header>
 
         <!-- register success message -->
-        <center><h4>{{$registerSuccessMessage}}</h4></center>
+        <script>alert("{{ $registerSuccessMessage }}");</script>
 
         <!-- error message -->
         @if ($errors->count())
             @foreach ($errors->all() as $error)
-                <center><h4 style="color: red">{{$error}}</h4></center>
+                <script>alert("{{ $error }}");</script>
             @endforeach
         @endif
 
