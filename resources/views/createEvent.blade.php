@@ -28,16 +28,16 @@
                     <input type="hidden" id="token" name="token" value="{{$token}}">
                 </form>
                 <ul style="color:white" class="nav navbar-nav navbar-right">
-                    <li class="navbar-brand">{{$userName}}</li>&emsp;&emsp;
+                    <li class="navbar-brand" style="margin-right:40px">{{$userName}}</li>
                     <li class="navbar-brand">
-                        <select class="form-select" id="record">
+                        <select class="form-select" style="margin-top:2px" id="record">
                             <option selected>您的紀錄</option>
                             @foreach ($userEvent as $event)
                             <option value="{{$event->id}}">{{$event->event_name}}</option>
                             @endforeach
                         </select>
-                    </li>&emsp;&emsp;
-                    <li class="navbar-brand"><button class="btn btn-light" type="button" onclick="logout()">登出</button></li>
+                    </li>
+                    <li class="navbar-brand"><button class="btn btn-light" style="margin-left:30px" onclick="logout()">登出</button></li>
                 </ul>
             </div>
         </nav>

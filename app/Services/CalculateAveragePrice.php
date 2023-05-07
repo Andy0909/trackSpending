@@ -15,31 +15,39 @@ class CalculateAveragePrice
 
         foreach ($spendList as $key => $value) {
             $average = round($value['price'] / count($value['shareMember']), 2);
+            $payer = $value['payer'];
+
             foreach ($value['shareMember'] as $member) {
-                if ($member != $value['payer']) {
-                    if (count($result) > 0) {
-                        if (isset($result[$member])) {
-                            if (isset($result[$member][$value['payer']])) {
-                                $result[$member][$value['payer']] -= $average;
-                            } 
-                            else {
-                                $result[$member][$value['payer']] = -$average;
-                            }
-                        } 
-                        elseif (isset($result[$value['payer']][$member])) {
-                            $result[$value['payer']][$member] += $average;
-                        }  
-                        else {
-                            $result[$value['payer']][$member] = $average;
-                        }
-                    } 
-                    else {
-                        $result[$value['payer']][$member] = $average;
+                if ($member != $payer) {
+                    if (!isset($result[$member])) {
+                        $result[$member] = [];
                     }
+
+                    if (!isset($result[$member][$payer])) {
+                        $result[$member][$payer] = 0;
+                    }
+
+                    $result[$member][$payer] -= $average;
+                    $result[$payer][$member] = ($result[$payer][$member] ?? 0) + $average;
                 }
             }
         }
 
-        return $result;
+        return $this->simplifyResult($result);
+    }
+
+    private function simplifyResult($result)
+    {
+        $simplifyResult = [];
+
+        foreach ($result as $payer => $members) {
+            foreach ($members as $member => $price) {
+                if (!isset($simplifyResult[$member][$payer])) {
+                    $simplifyResult[$payer][$member] = $price;
+                }
+            }
+        }
+
+        return $simplifyResult;
     }
 }
