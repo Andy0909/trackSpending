@@ -8,7 +8,7 @@
             <div class="modal-body" id="popupModalContent">
                 <form action="/updateItem" method="POST">
                     @csrf
-                    <input type="hidden" id="eventId" name="eventId" value={{$item['eventId']}}>
+                    <input type="hidden" id="eventId" name="eventId" value={{$eventId}}>
                     <input type="hidden" id="updateItem" name="updateItem">
 
                     <!-- price input-->

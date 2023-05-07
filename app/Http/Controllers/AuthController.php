@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
 use App\Services\SessionService;
+use App\Services\ValidateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -13,20 +14,29 @@ class AuthController extends Controller
 {
     const ERROR_MESSAGE = '網頁發生錯誤，請稍後再試，謝謝。';
 
+    const REGISTER_SUCCESS_MESSAGE = '註冊成功，趕快登入建立分帳系統吧！';
+
+    const PASSWORD_ERROR_MESSAGE = '密碼輸入錯誤';
+
     /** @var  UserRepository */
     private $userRepository;
 
-    /** @var  UserRepository */
+    /** @var  SessionService */
     private $sessionService;
+
+    /** @var  ValidateService */
+    private $validateService;
     
     /**
      * @param UserRepository $userRepository
      * @param SessionService $sessionService
+     * @param ValidateService $validateService
      */
-    public function __construct(UserRepository $userRepository, SessionService $sessionService) 
+    public function __construct(UserRepository $userRepository, SessionService $sessionService, ValidateService $validateService) 
     {
         $this->userRepository = $userRepository;
         $this->sessionService = $sessionService;
+        $this->validateService = $validateService;
     }
 
     public function registerPage()
@@ -37,18 +47,10 @@ class AuthController extends Controller
     /**
      * registerProcess
      * @param Request $request
-     * @return void
      */
     public function registerProcess(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'name'     => 'required|string',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed',
-        ],[
-            'password.confirmed' => '密碼不一致',
-            'email.unique'       => '信箱已註冊',
-        ]);
+        $validator = $this->validateService->checkRequest($request);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -65,7 +67,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
         }
 
-        return redirect()->route('loginPage')->with('registerSuccessMessage', '註冊成功，趕快登入建立分帳系統吧！');
+        return redirect()->route('loginPage')->with('registerSuccessMessage', self::REGISTER_SUCCESS_MESSAGE);
     }
 
     public function loginPage()
@@ -78,7 +80,6 @@ class AuthController extends Controller
     /**
      * loginProcess
      * @param Request $request
-     * @return void
      */
     public function loginProcess(Request $request)
     {
@@ -88,7 +89,7 @@ class AuthController extends Controller
             $user = $this->userRepository->getUserByEmail($loginData['email']);
 
             if (!$user || !Hash::check($loginData['password'], $user->password)) {
-                return redirect()->back()->withErrors('密碼輸入錯誤')->withInput();
+                return redirect()->back()->withErrors(self::PASSWORD_ERROR_MESSAGE)->withInput();
             }
 
             $token = $user->createToken('token')->plainTextToken;
@@ -110,7 +111,6 @@ class AuthController extends Controller
     /**
      * logout
      * @param Request $request
-     * @return void
      */
     public function logout(Request $request)
     {

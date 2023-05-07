@@ -22,7 +22,9 @@
         </header>
 
         <!-- register success message -->
-        <script>alert("{{ $registerSuccessMessage }}");</script>
+        @if (!empty($registerSuccessMessage))
+            <script>alert("{{ $registerSuccessMessage }}");</script>
+        @endif
 
         <!-- error message -->
         @if ($errors->count())

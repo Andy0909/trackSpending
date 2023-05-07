@@ -62,7 +62,7 @@ class HomeController extends Controller
         if ($eventData->first()['event_name'] === $eventName) {
             $eventName = $eventData->first()['event_name'];
             $eventMember = $eventData->first()['member'];
-            $items = $eventData->first()['item'];
+            $items = empty($eventData->first()['item']) ? [] : $eventData->first()['item'];
             $spendList = empty($items) ? [] : $this->getSpendListService->formatItems($items);
             $averageResult = empty($spendList) ? [] : $this->calculateAveragePrice->calculateAveragePrice($spendList);
 

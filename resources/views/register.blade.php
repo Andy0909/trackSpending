@@ -53,6 +53,7 @@
                                 <input class="form-control" id="password" name="password" type="password" placeholder="Enter password..." required/>
                                 <label for="password">密碼：</label>
                             </div>
+                            
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="password_confirmation" name="password_confirmation" type="password" placeholder="Enter password again..." required/>
                                 <label for="password_confirmation">確認密碼：</label>

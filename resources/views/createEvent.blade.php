@@ -87,9 +87,9 @@
                                 <label for="member">成員：</label>
                             </div>
                             
-                            <div id="newMember">
-                                <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg">+</button>
-                            </div><br><br>
+                            <div id="newMember"></div>
+
+                            <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg" style="margin-bottom: 30px">+</button>
 
                             <!-- Submit Button-->
                             <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
@@ -105,11 +105,16 @@
             $('#addMember').click(function(){
                 $('#newMember').prepend(`
                     <div class="form-floating mb-3">
+                        <button id="removeMember" type="button" class="btn btn-danger btn-circle btn-lg">-</button>
                         <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
-                        <label for="member">成員：</label>
+                        <label for="member" style="margin-top: 20px">成員：</label>
                     </div>
                 `)
             })
+
+            $('#newMember').on('click', '#removeMember', function() {
+                $(this).parent().remove();
+            });
 
             $("#record").change(function(){
                 window.location.href = "/trackSpending" + "/" + $(this).val() + "/" + $('#record :selected').text();
