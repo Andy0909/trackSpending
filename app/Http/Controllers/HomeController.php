@@ -110,13 +110,15 @@ class HomeController extends Controller
     public function createItemProcess(Request $request)
     {
         $itemData = $request->all();
+        $newItemId = $this->itemRepository->getLastItemId()->item_id + 1;
 
         DB::beginTransaction();
 
         try {
-            collect($itemData['average'])->each(function ($averageMember) use ($itemData) {
+            collect($itemData['average'])->each(function ($averageMember) use ($itemData, $newItemId) {
                 $this->itemRepository->createItem([
                     'event_id'     => $itemData['eventId'],
+                    'item_id'      => $newItemId,
                     'item_name'    => $itemData['item'],
                     'price'        => $itemData['price'],
                     'payer'        => $itemData['payer'],
@@ -141,15 +143,17 @@ class HomeController extends Controller
     public function updateItemProcess(Request $request)
     {
         $itemData = $request->all();
+        $newItemId = $this->itemRepository->getLastItemId()->item_id + 1;
 
         DB::beginTransaction();
 
         try {
-            $this->itemRepository->deleteItemByItemName($itemData['eventId'], $itemData['updateItem']);
+            $this->itemRepository->deleteItemByEventIdAndItemId($itemData['eventId'], $itemData['itemId']);
 
-            collect($itemData['updateAverage'])->each(function ($averageMember) use ($itemData) {
+            collect($itemData['updateAverage'])->each(function ($averageMember) use ($itemData, $newItemId) {
                 $this->itemRepository->createItem([
                     'event_id'     => $itemData['eventId'],
+                    'item_id'      => $newItemId,
                     'item_name'    => $itemData['updateItem'],
                     'price'        => $itemData['updatePrice'],
                     'payer'        => $itemData['updatePayer'],

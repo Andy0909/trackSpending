@@ -26,7 +26,7 @@
                                         <td>{{implode('、', $item['shareMember'])}}</td>
                                         <td>
                                             <button type="button" id="editButton{{$key}}" class="btn btn-primary" data-toggle="modal" data-target="#popupModal" 
-                                                    onclick="editRecord({{json_encode($item['itemName'])}}, {{$item['price']}}, {{json_encode($item['payer'])}})">編輯
+                                                    onclick="editRecord({{json_encode($item['itemId'])}}, {{json_encode($item['itemName'])}}, {{$item['price']}}, {{json_encode($item['payer'])}})">編輯
                                             </button>
                                         </td>
                                     </tr>
@@ -44,9 +44,10 @@
 @extends('viewModal/popup')
 
 <script>
-    function editRecord(itemName, price, payer) {
+    function editRecord(itemId, itemName, price, payer) {
+        setUpdateItemId(itemId);
+        setUpdateItemName(itemName);
         setPopupTitle(itemName);
-        setUpdateItem(itemName)
         setUpdatePrice(price);
         setUpdatePayer(payer);
         popupShow();

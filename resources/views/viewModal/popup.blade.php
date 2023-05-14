@@ -9,6 +9,7 @@
                 <form action="/updateItem" method="POST">
                     @csrf
                     <input type="hidden" id="eventId" name="eventId" value={{$eventId}}>
+                    <input type="hidden" id="itemId" name="itemId">
                     <input type="hidden" id="updateItem" name="updateItem">
 
                     <!-- price input-->

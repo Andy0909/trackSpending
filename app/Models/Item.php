@@ -10,7 +10,7 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'event_id', 'item_name', 'price', 'payer', 'share_member',
+        'id', 'event_id', 'item_id', 'item_name', 'price', 'payer', 'share_member',
     ];
 
     public function event()

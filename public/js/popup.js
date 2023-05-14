@@ -1,6 +1,7 @@
 var popupTitle = $('#popupModalTitle');
 var popupContent = $('#popupModalContent');
-var updateItem = $('#updateItem');
+var updateItemId = $('#itemId');
+var updateItemName = $('#updateItem');
 var updatePrice = $('#updatePrice');
 
 function popupShow() {
@@ -19,8 +20,12 @@ function setPopupContent(content) {
     popupContent.append(content);
 }
 
-function setUpdateItem(itemName) {
-    updateItem.val(itemName);
+function setUpdateItemId(itemId) {
+    updateItemId.val(itemId);
+}
+
+function setUpdateItemName(itemName) {
+    updateItemName.val(itemName);
 }
 
 function setUpdatePrice(price) {

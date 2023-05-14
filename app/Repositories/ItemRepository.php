@@ -27,6 +27,11 @@ class ItemRepository implements ItemRepositoryInterface
         return Item::where('event_id', '=', $eventId)->get();
     }
 
+    public function getLastItemId()
+    {
+        return Item::latest('item_id')->first() ?? 0;
+    }
+
     /**
      * createItem
      * @param array $itemData
@@ -49,13 +54,13 @@ class ItemRepository implements ItemRepositoryInterface
     }
 
     /**
-     * deleteItemByItemName
+     * deleteItemByEventIdAndItemId
      * @param int $eventId
-     * @param string $itemName
+     * @param int $itemId
      * @return void
      */
-    public function deleteItemByItemName(int $eventId, string $itemName) 
+    public function deleteItemByEventIdAndItemId(int $eventId, int $itemId) 
     {
-        return Item::where('event_id', '=', $eventId)->where('item_name', '=', $itemName)->delete();
+        return Item::where('event_id', '=', $eventId)->where('item_id', '=', $itemId)->delete();
     }
 }
