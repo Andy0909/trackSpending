@@ -1,10 +1,21 @@
 pipeline {
-    agent any
-    stages {
-        stage("CICD start") {
-            steps {
-                echo 'CICD 測試'
-            }
-        }
+  agent any
+  
+  stages {
+    stage('Cleanup') {
+      steps {
+        echo 'clean dir'
+        deleteDir()
+      }
     }
+    
+    stage('Zip') {
+      steps {
+        echo 'zip project'
+        sh 'zip -r trackspending.zip'
+      }
+    }
+    
+    // 其他階段和步驟可以在此添加
+  }
 }
