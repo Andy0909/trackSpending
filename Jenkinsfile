@@ -5,14 +5,14 @@ pipeline {
     stage('Cleanup') {
       steps {
         echo 'clean dir'
-        sh 'rm -f *'
+        //sh 'rm -f *'
       }
     }
     
     stage('Zip') {
       steps {
         echo 'zip project'
-        sh 'zip -r trackspending.zip'
+        //sh 'zip -r trackspending.zip'
       }
     }
     
