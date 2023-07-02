@@ -5,7 +5,7 @@ pipeline {
     stage('Cleanup') {
       steps {
         echo 'clean dir'
-        deleteDir()
+        sh 'rm -f *'
       }
     }
     
