@@ -12,7 +12,7 @@ pipeline {
             }
         }
 
-        /*stage('Building image') {
+        stage('Building image') {
             steps {
                 sh 'docker build -t php-docker-image .'
             }
@@ -25,6 +25,6 @@ pipeline {
                     sh 'docker push 422351898213.dkr.ecr.us-east-1.amazonaws.com/php-docker-image:latest'
                 }
             }
-        }*/
+        }
     }
 }
