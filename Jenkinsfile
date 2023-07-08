@@ -14,15 +14,15 @@ pipeline {
 
         stage('Building image') {
             steps {
-                sh 'sudo docker build -t php-docker-image .'
+                sh 'docker build -t php-docker-image .'
             }
         }
 
         stage('Push to ECR') {
             steps {
                 script {
-                    sh 'sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 422351898213.dkr.ecr.us-east-1.amazonaws.com'
-                    sh 'sudp docker push 422351898213.dkr.ecr.us-east-1.amazonaws.com/php-docker-image:latest'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 422351898213.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker push 422351898213.dkr.ecr.us-east-1.amazonaws.com/php-docker-image:latest'
                 }
             }
         }
