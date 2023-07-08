@@ -12,13 +12,13 @@ pipeline {
             }
         }
 
-        stage('Building image') {
+        /*stage('Building image') {
             steps {
                 sh 'docker build -t php-docker-image .'
             }
         }
 
-        /*stage('Push to ECR') {
+        stage('Push to ECR') {
             steps {
                 script {
                     sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 422351898213.dkr.ecr.us-east-1.amazonaws.com'
