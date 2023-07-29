@@ -8,9 +8,13 @@ pipeline {
             }
         }
 
-        stage ('Run Docker Compose') {
-            steps{
-                sh 'sudo docker-compose up -d'
+        stage('Build Docker Image') {
+            steps {
+                // 使用Dockerfile建構映像檔
+                script {
+                    def dockerImage = docker.build('php-image:latest', '-f Dockerfile .')
+                    dockerImage.push()
+                }
             }
         }
     }
