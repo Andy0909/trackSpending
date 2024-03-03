@@ -6,7 +6,7 @@
             <div class="modal-body text-center pb-5">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="listTable">
                             <thead>
                                 <tr>
                                   <th scope="col">項目</th>

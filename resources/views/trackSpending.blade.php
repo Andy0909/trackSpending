@@ -169,8 +169,8 @@
                             </div>
                             
                             <!-- payer input-->
-                            <div class="form-floating mb-3" style="padding-bottom: 8%">
-                                <label for="payer">付錢者：</label>
+                            <div class="form-floating mb-3" style="padding-bottom: 10%">
+                                <label id="payerLable" for="payer">付錢者：</label>
                             </div>
                             <select class="form-select" id="payer" name="payer" required>
                                 @foreach ($eventMember as $member)
@@ -179,8 +179,8 @@
                             </select>
 
                             <!-- average input-->
-                            <div class="form-floating mb-3" style="padding-bottom: 8%">
-                                <label for="average">分攤者：</label>
+                            <div class="form-floating mb-3" style="padding-bottom: 10%">
+                                <label id="averageLable" for="average">分攤者：</label>
                             </div>
                             <select name="average[]" id="average" class="selectpicker" multiple>
                                 @foreach ($eventMember as $member)
@@ -211,7 +211,7 @@
         <!-- Multi Select-->
         <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
         <script>
-            function logout(){
+            function logout() {
                 $("#logout").submit();
             }
 

@@ -20,7 +20,7 @@
                     
                     <!-- payer input-->
                     <div class="form-floating mb-3" style="padding-bottom: 10%">
-                        <label for="updatePayer">付錢者：</label>
+                        <label id="payerLable" for="updatePayer">付錢者：</label>
                     </div>
                     <select class="form-select" id="updatePayer" name="updatePayer" required>
                         @foreach ($eventMember as $member)
@@ -30,7 +30,7 @@
 
                     <!-- average input-->
                     <div class="form-floating mb-3" style="padding-bottom: 10%">
-                        <label for="updateAverage">分攤者：</label>
+                        <label id="averageLable" for="updateAverage">分攤者：</label>
                     </div>
                     <select class="selectpicker" id="updateAverage" name="updateAverage[]"  multiple>
                         @foreach ($eventMember as $member)

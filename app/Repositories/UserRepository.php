@@ -7,32 +7,47 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface 
 {
+    /**
+     * 取得所有用戶資料
+     */
     public function getAllUsers() 
     {
         return User::all();
     }
 
-    public function getUserById($userId) 
+    /**
+     * 使用 id 取得用戶資料
+     * @param string $userId
+     */
+    public function getUserById(string $userId) 
     {
         return User::findOrFail($userId);
     }
 
-    public function getUserByEmail($userEmail) 
+    /**
+     * 使用 email 取得用戶資料
+     * @param string $userEmail
+     */
+    public function getUserByEmail(string $userEmail) 
     {
         return User::where('email', '=', $userEmail)->first();
     }
 
-    public function deleteUser($userId) 
-    {
-        User::destroy($userId);
-    }
-
+    /**
+     * 創建用戶資料
+     * @param array $registerData
+     */
     public function createUser(array $registerData) 
     {
         return User::create($registerData);
     }
 
-    public function updateUser($userId, array $newData) 
+    /**
+     * 更新用戶資料
+     * @param string $userId
+     * @param array $registerData
+     */
+    public function updateUser(string $userId, array $newData) 
     {
         return User::whereId($userId)->update($newData);
     }

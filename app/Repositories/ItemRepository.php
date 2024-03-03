@@ -9,57 +9,55 @@ class ItemRepository implements ItemRepositoryInterface
 {
     /**
      * getItemById
-     * @param int $itemId
-     * @return object
+     * @param string $itemId
      */
-    public function getItemById(int $itemId) 
+    public function getItemById(string $itemId)
     {
         return Item::where('id', '=', $itemId)->with('member')->with('item')->get();
     }
 
     /**
      * getItemByEventId
-     * @param int $eventId
-     * @return object
+     * @param string $eventId
      */
-    public function getItemByEventId(int $eventId) 
+    public function getItemByEventId(string $eventId)
     {
         return Item::where('event_id', '=', $eventId)->get();
     }
 
+    /**
+     * getLastItemId
+     */
     public function getLastItemId()
     {
-        return Item::latest('item_id')->first() ?? 0;
+        return Item::latest('item_id')->first() ?? '0';
     }
 
     /**
      * createItem
      * @param array $itemData
-     * @return void
      */
-    public function createItem(array $itemData) 
+    public function createItem(array $itemData)
     {
         return Item::create($itemData);
     }
 
     /**
      * updateItem
-     * @param int $itemId
+     * @param string $itemId
      * @param array $newItemData
-     * @return void
      */
-    public function updateItem(int $itemId, array $newItemData) 
+    public function updateItem(string $itemId, array $newItemData) 
     {
         return Item::where('id', '=', $itemId)->update($newItemData);
     }
 
     /**
      * deleteItemByEventIdAndItemId
-     * @param int $eventId
-     * @param int $itemId
-     * @return void
+     * @param string $eventId
+     * @param string $itemId
      */
-    public function deleteItemByEventIdAndItemId(int $eventId, int $itemId) 
+    public function deleteItemByEventIdAndItemId(string $eventId, string $itemId) 
     {
         return Item::where('event_id', '=', $eventId)->where('item_id', '=', $itemId)->delete();
     }

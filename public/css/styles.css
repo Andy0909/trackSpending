@@ -2426,11 +2426,6 @@ textarea.form-control-lg {
      -moz-appearance: none;
           appearance: none;
 }
-@media (prefers-reduced-motion: reduce) {
-  .form-select {
-    transition: none;
-  }
-}
 .form-select:focus {
   border-color: #8ddece;
   outline: 0;
@@ -4057,6 +4052,7 @@ textarea.form-control-lg {
   text-decoration: none;
   white-space: nowrap;
 }
+
 .navbar-nav {
   display: flex;
   flex-direction: column;
@@ -4064,6 +4060,7 @@ textarea.form-control-lg {
   margin-bottom: 0;
   list-style: none;
 }
+
 .navbar-nav .nav-link {
   padding-right: 0;
   padding-left: 0;
@@ -11505,4 +11502,64 @@ html {
 
 .copyright {
   background-color: #1a252f;
+}
+
+#navbarUsername {
+  margin-right: 70px;
+}
+
+#navbarLogout {
+  margin-left: -150px;
+}
+
+#navbarRecord {
+  margin-left: -150px;
+  margin-right: 70px;
+}
+
+#averageLable {
+  font-size: 15px;
+}
+
+#payerLable {
+  font-size: 15px;
+}
+
+@media screen and (min-width:200px) and (max-width:800px) {
+  #navbarRecord {
+    width:35%;
+    margin-right: 80px;
+  }
+
+  #navbarLogout {
+    margin-right: 2px;
+  }
+
+  #navbarUsername {
+    display: none;
+  }
+
+  #listTable {
+    font-size: 12px;
+  }
+
+  .btn-primary {
+    font-size: 10px;
+  }
+
+  .btn-secondary {
+    font-size: 10px;
+  }
+
+  .portfolio-modal .btn-close {
+    font-size: 15px;
+  }
+
+  #averageLable {
+    font-size: 15px;
+  }
+
+  #payerLable {
+    font-size: 15px;
+  }
 }
