@@ -1,6 +1,13 @@
 # 使用 PHP 官方映像作為基底
 FROM php:8.1.21-fpm
 
+# 安裝必要的工具和 PHP 擴展
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    libzip-dev \
+    && docker-php-ext-install zip
+
 # 安裝 Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
