@@ -5,7 +5,7 @@ namespace App\Services;
 class CalculateAveragePrice
 {
     /**
-     * calculateAveragePrice
+     * 計算分攤金額
      * @param array $spendList
      * @return array $result
      */
@@ -36,7 +36,12 @@ class CalculateAveragePrice
         return $this->simplifyResult($result);
     }
 
-    private function simplifyResult($result)
+    /**
+     * 簡化回傳資料
+     * @param array $result
+     * @return array
+     */
+    private function simplifyResult(array $result): array
     {
         $simplifyResult = [];
 
