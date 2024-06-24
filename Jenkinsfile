@@ -16,6 +16,18 @@ pipeline {
             }
         }
 
+        stage('Install Unzip') {
+            steps {
+                sh """
+                # 安裝 unzip
+                if ! command -v unzip &> /dev/null
+                then
+                    apt-get update && apt-get install -y unzip
+                fi
+                """
+            }
+        }
+
         stage('Install AWS CLI') {
             steps {
                 sh """
