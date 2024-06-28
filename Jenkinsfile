@@ -6,6 +6,8 @@ pipeline {
         IMAGE_REPO_NAME = "php"
         IMAGE_TAG = "latest"
         REPOSITORY_URI = "422351898213.dkr.ecr.ap-northeast-1.amazonaws.com/php"
+        CLUSTER = "phpProjectCluster"
+        SERVICE = "trackspending-service"
     }
    
     stages {
@@ -37,6 +39,14 @@ pipeline {
                 script {
                     sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:${IMAGE_TAG}"""
                     sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
+                }
+            }
+        }
+
+        stage('Deploy to ECS') {
+            steps {
+                script {
+                    sh """aws ecs update-service --cluster ${CLUSTER} --service ${SERVICE} --force-new-deployment"""
                 }
             }
         }
