@@ -21,7 +21,7 @@ COPY . /var/www
 RUN composer install --optimize-autoloader --no-dev
 
 # php artisan 
-RUN php artisan migrate
+RUN php artisan migrate --force
 RUN php artisan cache:clear
 RUN php artisan config:clear
 RUN php artisan route:clear
