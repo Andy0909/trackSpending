@@ -54,7 +54,7 @@ pipeline {
             }
         }
 
-        stage('Run Migrations') {
+        /*stage('Run Migrations') {
             steps {
                 script {
                     def taskDefinition = sh(script: """
@@ -80,6 +80,6 @@ pipeline {
                     """
                 }
             }
-        }
+        }*/
     }
 }
