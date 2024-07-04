@@ -20,12 +20,6 @@ COPY . /var/www
 # 安裝 Laravel 相依套件
 RUN composer install --optimize-autoloader --no-dev
 
-# php artisan 
-RUN php artisan migrate --force
-RUN php artisan cache:clear
-RUN php artisan config:clear
-RUN php artisan route:clear
-
 # 設置文件權限
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www/storage
