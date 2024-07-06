@@ -46,15 +46,15 @@ pipeline {
             }
         }
 
-        /*stage('Deploy to ECS') {
+        stage('Deploy to ECS') {
             steps {
                 script {
                     sh """aws ecs update-service --cluster ${CLUSTER} --service ${SERVICE} --force-new-deployment"""
                 }
             }
-        }*/
+        }
 
-        /*stage('Run Migrations') {
+        stage('Run Migrations') {
             steps {
                 script {
                     def taskDefinition = sh(script: """
@@ -80,6 +80,6 @@ pipeline {
                     """
                 }
             }
-        }*/
+        }
     }
 }
