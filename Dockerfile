@@ -1,5 +1,5 @@
 # 使用 PHP 官方映像作為基底
-FROM php:8.1.21-fpm
+FROM --platform=linux/amd64 php:8.1.21-fpm
 
 # 安裝必要的工具和 PHP 擴展
 RUN apt-get update && apt-get install -y \
