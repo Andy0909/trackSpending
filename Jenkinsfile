@@ -8,9 +8,6 @@ pipeline {
         REPOSITORY_URI = "422351898213.dkr.ecr.ap-northeast-1.amazonaws.com/php"
         CLUSTER = "phpProjectCluster"
         SERVICE = "trackspending-service"
-        SUBNET_ID = "subnet-0dad19b25801c253a" // 替換為您的子網ID
-        SECURITY_GROUP_ID = "sg-08c0bc7601a52735d" // 替換為您的安全組ID
-        CONTAINER_NAME = "php" // 替換為您的容器名稱
     }
    
     stages {
@@ -50,34 +47,6 @@ pipeline {
             steps {
                 script {
                     sh """aws ecs update-service --cluster ${CLUSTER} --service ${SERVICE} --force-new-deployment"""
-                }
-            }
-        }
-
-        stage('Run Migrations') {
-            steps {
-                script {
-                    def taskDefinition = sh(script: """
-                        aws ecs describe-services --cluster ${CLUSTER} --services ${SERVICE} --query "services[0].taskDefinition" --output text --region ${AWS_DEFAULT_REGION}
-                    """, returnStdout: true).trim()
-
-                    def taskArn = sh(script: """
-                        aws ecs run-task \
-                        --cluster ${CLUSTER} \
-                        --task-definition ${taskDefinition} \
-                        --launch-type "FARGATE" \
-                        --count 1 \
-                        --network-configuration "awsvpcConfiguration={subnets=[${SUBNET_ID}],securityGroups=[${SECURITY_GROUP_ID}],assignPublicIp=ENABLED}" \
-                        --overrides '{"containerOverrides":[{"name":"${CONTAINER_NAME}","command":["php","artisan","migrate","--force"]}]}' \
-                        --region ${AWS_DEFAULT_REGION} \
-                        --query "tasks[0].taskArn" \
-                        --output text
-                    """, returnStdout: true).trim()
-
-                    sh """
-                    echo "Waiting for migration task to complete..."
-                    aws ecs wait tasks-stopped --cluster ${CLUSTER} --tasks ${taskArn} --region ${AWS_DEFAULT_REGION}
-                    """
                 }
             }
         }
