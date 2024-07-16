@@ -1,5 +1,5 @@
 # 使用 PHP 官方映像作為基底
-FROM php:8.1.21-fpm
+FROM php:8.3.9-fpm
 
 # 安裝必要的工具
 RUN apt-get update && apt-get install -y \
