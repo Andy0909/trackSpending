@@ -22,9 +22,6 @@ COPY . /var/www
 # 安裝 Laravel 相依套件
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# 發布資產
-RUN php artisan vendor:publish --tag=public --force
-
 # 清除 Laravel 緩存
 RUN php artisan view:clear
 RUN php artisan route:clear
