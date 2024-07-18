@@ -19,19 +19,22 @@ WORKDIR /var/www
 # 複製 Laravel 應用程式內容
 COPY . /var/www
 
+# Copy the public folder
+COPY public /var/www/public
+
 # 安裝 Laravel 相依套件
 RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# 設置文件權限
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 777 /var/www/storage
+RUN chmod -R 777 /var/www/bootstrap/cache
 
 # 清除 Laravel 緩存
 RUN php artisan view:clear
 RUN php artisan route:clear
 RUN php artisan config:clear
 RUN php artisan cache:clear
-
-# 設置文件權限
-RUN chown -R www-data:www-data /var/www
-RUN chmod -R 777 /var/www/storage
-RUN chmod -R 777 /var/www/bootstrap/cache
 
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
