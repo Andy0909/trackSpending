@@ -34,6 +34,9 @@ RUN php artisan view:clear \
     && php artisan config:clear \
     && php artisan cache:clear
 
+# 印出 public 資料夾裡面的內容
+RUN ls -la /var/www/public
+
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
 
