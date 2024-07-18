@@ -15,6 +15,11 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+// test
+Route::get('/test', function () {
+    return view('test');
+});
+
 //註冊、登入頁
 Route::get('/', function () {
     return view('welcome');
