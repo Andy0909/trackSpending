@@ -19,9 +19,6 @@ WORKDIR /var/www
 # 複製 Laravel 應用程式內容
 COPY . /var/www
 
-# Copy the public folder
-COPY public /var/www/public
-
 # 安裝 Laravel 相依套件
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
