@@ -10,10 +10,6 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql zip
 
-# 安裝 Node.js 和 npm
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-
 # 安裝 Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -36,11 +32,7 @@ RUN chown -R www-data:www-data /var/www \
 RUN php artisan view:clear \
     && php artisan route:clear \
     && php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan ui:auth \
-    && php artisan ui bootstrap --auth
-
-RUN npm install && npm run dev
+    && php artisan cache:clear
 
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
