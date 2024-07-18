@@ -34,6 +34,9 @@ RUN php artisan view:clear \
     && php artisan config:clear \
     && php artisan cache:clear
 
+# 發布 Laravel 資產文件
+RUN php artisan vendor:publish --tag=laravel-assets --ansi --force
+
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
 
