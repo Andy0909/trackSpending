@@ -26,15 +26,16 @@ COPY public /var/www/public
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # 設置文件權限
-RUN chown -R www-data:www-data /var/www
-RUN chmod -R 777 /var/www/storage
-RUN chmod -R 777 /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/public \
+    && chmod -R 755 /var/www/storage \
+    && chmod -R 755 /var/www/bootstrap/cache
 
 # 清除 Laravel 緩存
-RUN php artisan view:clear
-RUN php artisan route:clear
-RUN php artisan config:clear
-RUN php artisan cache:clear
+RUN php artisan view:clear \
+    && php artisan route:clear \
+    && php artisan config:clear \
+    && php artisan cache:clear
 
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
