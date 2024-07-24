@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('script.js') }}">
+    <link rel="stylesheet" href="{{ '../css/test.css' }}">
     <!-- Multi Select-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css?v={{ time() }}">
     <!-- Bootstrap core JS-->
