@@ -32,6 +32,9 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/public
 
+# 檢查 public/css 目錄內容
+RUN ls -la /var/www/public/css
+
 # 切換到 www-data 用戶
 USER www-data
 
