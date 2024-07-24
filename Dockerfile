@@ -26,11 +26,14 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # 設置文件權限
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 777 /var/www/public \
-    && chmod -R 777 /var/www/public/css \
-    && chmod -R 777 /var/www/public/css/style.css \
-    && chmod -R 777 /var/www/storage \
-    && chmod -R 777 /var/www/bootstrap/cache
+    && chmod -R 775 /var/www/public \
+    && chmod -R 775 /var/www/public/css \
+    && chmod -R 775 /var/www/public/css/style.css \
+    && chmod -R 775 /var/www/storage \
+    && chmod -R 775 /var/www/bootstrap/cache
+
+# 切換到 www-data 用戶
+USER www-data
 
 # 清除 Laravel 緩存
 RUN php artisan view:clear \
