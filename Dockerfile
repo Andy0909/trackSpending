@@ -33,7 +33,7 @@ RUN php artisan view:clear \
     && php artisan config:clear \
     && php artisan cache:clear
 
-#VOLUME ["/var/www"]
+VOLUME ["/var/www"]
 
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
