@@ -7,7 +7,7 @@ pipeline {
         IMAGE_TAG = "latest"
         REPOSITORY_URI = "422351898213.dkr.ecr.ap-northeast-1.amazonaws.com/php"
         CLUSTER = "phpProjectCluster"
-        SERVICE = "trackspending-service"
+        SERVICE = "trackspending-service-0812"
     }
    
     stages {
