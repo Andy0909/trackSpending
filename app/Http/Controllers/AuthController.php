@@ -19,7 +19,7 @@ class AuthController extends Controller
     const REGISTER_SUCCESS_MESSAGE = '註冊成功，趕快登入建立分帳系統吧！';
 
     /** @const string */
-    const PASSWORD_ERROR_MESSAGE = '密碼輸入錯誤。';
+    const PASSWORD_ERROR_MESSAGE = '帳號密碼輸入錯誤。';
 
     /** @var  UserRepository */
     private $userRepository;
