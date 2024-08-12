@@ -118,7 +118,8 @@ class HomeController extends Controller
         $itemData = $request->all();
 
         // 取得資料庫最後一個項目的 id 並 + 1
-        $newItemId = $this->itemRepository->getLastItemId()->item_id + 1;
+        $lastItemId = $this->itemRepository->getLastItemId()->item_id;
+        $newItemId = $lastItemId ? $lastItemId + 1 : 1;
 
         DB::beginTransaction();
 

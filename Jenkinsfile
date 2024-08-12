@@ -3,11 +3,11 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID = "422351898213"
         AWS_DEFAULT_REGION = "ap-northeast-1"
-        IMAGE_REPO_NAME = "trackspending"
+        IMAGE_REPO_NAME = "php"
         IMAGE_TAG = "latest"
-        REPOSITORY_URI = "422351898213.dkr.ecr.ap-northeast-1.amazonaws.com/trackspending"
+        REPOSITORY_URI = "422351898213.dkr.ecr.ap-northeast-1.amazonaws.com/php"
         CLUSTER = "phpProjectCluster"
-        SERVICE = "trackspending-test-service"
+        SERVICE = "trackspending-service"
     }
    
     stages {
