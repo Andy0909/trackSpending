@@ -23,9 +23,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-cache
 
 # 設置文件權限
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 777 /var/www/public \
-    && chmod -R 777 /var/www/storage \
-    && chmod -R 777 /var/www/bootstrap/cache
+    && chmod -R 777 /var/www/storage
 
 # 清除 Laravel 緩存
 RUN php artisan view:clear \
@@ -33,9 +31,11 @@ RUN php artisan view:clear \
     && php artisan config:clear \
     && php artisan cache:clear
 
+# 定義掛載點
 VOLUME ["/var/www"]
 
 # 指定容器內的 PHP-FPM 服務為執行入口點
 CMD ["php-fpm"]
 
+# 設定端口
 EXPOSE 9000
