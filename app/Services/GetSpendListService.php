@@ -2,18 +2,29 @@
 
 namespace App\Services;
 
-use App\Repositories\MemberRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetSpendListService
 {
+    /** @var MemberService */
+    private $memberService;
+
+    /**
+     * construct
+     * @param MemberService $memberService
+     */
+    public function __construct(MemberService $memberService) 
+    {
+        $this->memberService = $memberService;
+    }
+
     /**
      * formatItems
-     * @param object $items
+     * @param Collection $items
      * @return array $itemInformation
      */
-    public function formatItems(object $items): array
+    public function formatItems(Collection $items): array
     {
-        $memberRepository = new MemberRepository;
         $itemId = 0;
         $itemInformationKey = -1;
         $itemInformation = [];
@@ -27,11 +38,11 @@ class GetSpendListService
                 $itemInformation[$itemInformationKey]['eventId'] = $item['event_id'];
                 $itemInformation[$itemInformationKey]['itemName'] = $item['item_name'];
                 $itemInformation[$itemInformationKey]['price'] = $item['price'];
-                $payer = $memberRepository->getMemberById($item['payer'])['name'];
+                $payer = $this->memberService->getMemberById($item['payer'])['name'];
                 $itemInformation[$itemInformationKey]['payer'] = $payer;
             }
 
-            array_push($shareMember, $memberRepository->getMemberById($item['share_member'])['name']);
+            array_push($shareMember, $this->memberService->getMemberById($item['share_member'])['name']);
             $itemInformation[$itemInformationKey]['shareMember'] = $shareMember;
             $itemId = $item['item_id'];
         }

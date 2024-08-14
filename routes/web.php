@@ -36,6 +36,6 @@ Route::get('/createEvent', [HomeController::class , 'createEventPage'])->name('c
 Route::post('/createEvent', [HomeController::class , 'createEventProcess'])->name('createEventProcess');
 
 // 分帳系統頁面
-Route::get('/trackSpending/{eventId}/{eventName}', [HomeController::class , 'trackSpendingPage'])->name('trackSpendingPage');
+Route::match(['get', 'post'], '/trackSpending', [HomeController::class, 'trackSpendingPage'])->name('trackSpendingPage');
 Route::post('/createItem', [HomeController::class , 'createItemProcess'])->name('createItemProcess');
 Route::post('/updateItem', [HomeController::class , 'updateItemProcess'])->name('updateItemProcess');

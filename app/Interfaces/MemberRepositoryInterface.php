@@ -4,8 +4,7 @@ namespace App\Interfaces;
 
 interface MemberRepositoryInterface 
 {
-    public function getMemberById($memberId);
-    public function getMemberByEventId($eventId);
+    public function getMemberById(int $memberId);
     public function createMember(array $memberData);
-    public function updateMember($memberId, array $newMemberData);
+    public function updateMember(int $memberId, array $newMemberData);
 }

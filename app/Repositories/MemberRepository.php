@@ -7,23 +7,40 @@ use App\Models\Member;
 
 class MemberRepository implements MemberRepositoryInterface 
 {
-    public function getMemberById($memberId) 
+    /** @var Member */
+    private $memberModel;
+
+    /**
+     * construct
+     * @param Member $memberModel
+     */
+    public function __construct(Member $memberModel) 
     {
-        return Member::findOrFail($memberId);
+        $this->memberModel = $memberModel;
     }
 
-    public function getMemberByEventId($eventId) 
+    /**
+     * 利用 id 取得 member 資料
+     * @param int $memberId
+     * @return Member
+     */
+    public function getMemberById(int $memberId): Member
     {
-        return Member::findOrFail($eventId);
+        return $this->memberModel->findOrFail($memberId);
     }
 
+    /**
+     * 利用 id 取得 member 資料
+     * @param int $memberId
+     * @return Member
+     */
     public function createMember(array $memberData) 
     {
-        return Member::create($memberData);
+        return $this->memberModel->create($memberData);
     }
 
-    public function updateMember($memberId, array $newMemberData) 
+    public function updateMember(int $memberId, array $newMemberData) 
     {
-        return Member::whereId($memberId)->update($newMemberData);
+        return $this->memberModel->whereId($memberId)->update($newMemberData);
     }
 }

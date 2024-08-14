@@ -22,20 +22,23 @@
         <nav class="navbar navbar-expand-lg bg-secondary text-lowercase fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand">分帳軟體</a>
+                <a id="navbarUsername" class="navbar-brand">{{$userName}}</a>
+                <a id="navbarEvent" class="navbar-brand">
+                    <form id="postEventId" action="/trackSpending" method="POST">
+                        @csrf
+                        <select class="form-select" id="event" name="event">
+                            <option selected disabled>您的紀錄</option>
+                            @foreach ($userEvent as $event)
+                                <option value="{{$event->id}}">{{$event->event_name}}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </a>
                 <form id="logout" action="/logout" method="POST">
                     @csrf
                     <input type="hidden" id="userId" name="userId" value="{{$userId}}">
                     <input type="hidden" id="token" name="token" value="{{$token}}">
                 </form>
-                <a id="navbarUsername" class="navbar-brand">{{$userName}}</a>
-                <a id="navbarRecord" class="navbar-brand">
-                    <select class="form-select" id="record">
-                        <option selected>您的紀錄</option>
-                        @foreach ($userEvent as $event)
-                        <option value="{{$event->id}}">{{$event->event_name}}</option>
-                        @endforeach
-                    </select>
-                </a>
                 <a id="navbarLogout" class="navbar-brand"><button class="btn btn-light" onclick="logout()">登出</button></a>
             </div>
         </nav>
@@ -100,7 +103,7 @@
         @extends('footer')
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js?v=<?= time(); ?>"></script>
         <script>
-            $('#addMember').click(function(){
+            $('#addMember').click(function() {
                 $('#newMember').prepend(`
                     <div class="form-floating mb-3">
                         <button id="removeMember" type="button" class="btn btn-danger btn-circle btn-lg">-</button>
@@ -114,11 +117,11 @@
                 $(this).parent().remove();
             });
 
-            $("#record").change(function(){
-                window.location.href = "/trackSpending" + "/" + $(this).val() + "/" + $('#record :selected').text();
+            $("#event").change(function() {
+                $("#postEventId").submit();
             });
 
-            function logout(){
+            function logout() {
                 $("#logout").submit();
             }
         </script>

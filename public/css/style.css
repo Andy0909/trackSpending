@@ -11505,16 +11505,11 @@ html {
 }
 
 #navbarUsername {
-  margin-right: 70px;
+  margin-left: 700px;
 }
 
-#navbarLogout {
-  margin-left: -150px;
-}
-
-#navbarRecord {
-  margin-left: -150px;
-  margin-right: 70px;
+#navbarEvent {
+  margin-left: 25px;
 }
 
 #averageLable {
@@ -11526,9 +11521,9 @@ html {
 }
 
 @media screen and (min-width:200px) and (max-width:800px) {
-  #navbarRecord {
+  #navbarEvent {
     width:35%;
-    margin-right: 80px;
+    margin-left: 70px;
   }
 
   #navbarLogout {

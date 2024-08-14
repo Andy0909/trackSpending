@@ -7,23 +7,70 @@ use App\Models\Event;
 
 class EventRepository implements EventRepositoryInterface 
 {
-    public function getEventById($eventId) 
+    /** @var Event */
+    private $eventModel;
+
+    /**
+     * construct
+     * @param Event $eventModel
+     */
+    public function __construct(Event $eventModel) 
     {
-        return Event::where('id', '=', $eventId)->with('member')->with('item')->get();
+        $this->eventModel = $eventModel;
     }
 
-    public function getEventByUserId($userId) 
+    /**
+     * 利用 id 取得 event 資料
+     * @param int $eventId
+     * @return Event
+     */
+    public function getEventById($eventId): Event
     {
-        return Event::where('user_id', '=', $userId)->get();
+        return $this->eventModel
+            ->newQuery()
+            ->where('id', $eventId)
+            ->with('member')
+            ->with('item')
+            ->first();
     }
 
-    public function createEvent(array $eventData) 
+    /**
+     * 利用 user id 取得 event 資料
+     * @param int $userId
+     * @return Event[]
+     */
+    public function getEventByUserId(int $userId): array
     {
-        return Event::create($eventData);
+        return $this->eventModel
+            ->newQuery()
+            ->where('user_id', $userId)
+            ->get()
+            ->all();
     }
 
-    public function updateEvent($eventId, array $newEventData) 
+    /**
+     * 新增 event 資料
+     * @param array $eventData
+     * @return Event
+     */
+    public function createEvent(array $eventData): Event
     {
-        return Event::whereId($eventId)->update($newEventData);
+        return $this->eventModel
+            ->newQuery()
+            ->create($eventData);
+    }
+
+    /**
+     * 更新 event 資料
+     * @param int $eventId
+     * @param array $newEventData
+     * @return Event
+     */
+    public function updateEvent(int $eventId, array $newEventData): Event
+    {
+        return $this->eventModel
+            ->newQuery()
+            ->whereId($eventId)
+            ->update($newEventData);
     }
 }
