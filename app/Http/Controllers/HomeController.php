@@ -214,6 +214,9 @@ class HomeController extends Controller
             // 刪除 cache 以抓取新資料
             $this->cacheService->forgetCache('event_' . $itemData['eventId']);
 
+            // 活動 id 存進 seesion 讓 trackSpendingPage 使用
+            $this->sessionService->setSession(['eventId' => $itemData['eventId'],]);
+
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE)->withInput();
@@ -257,6 +260,9 @@ class HomeController extends Controller
 
             // 刪除 cache 以抓取新資料
             $this->cacheService->forgetCache('event_' . $itemData['eventId']);
+
+            // 活動 id 存進 seesion 讓 trackSpendingPage 使用
+            $this->sessionService->setSession(['eventId' => $itemData['eventId'],]);
     
         } catch (Exception $e) {
             DB::rollback();
