@@ -18,7 +18,15 @@
 <html lang="en">
     @extends('header')
     <body id="page-top">
-        <!-- Navigation-->
+
+        <!-- 有錯誤訊息就用 alert 提醒 -->
+        @if (session('errorMessage'))
+            <script>
+                alert("{{ session('errorMessage') }}");
+            </script>
+        @endif
+
+        <!-- Navigation -->
         <nav class="navbar navbar-expand-lg bg-secondary text-lowercase fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand">分帳軟體</a>
@@ -43,11 +51,11 @@
             </div>
         </nav>
 
-        <!-- Masthead-->
+        <!-- Masthead -->
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">新增分帳系統</h2>
-                <!-- Icon Divider-->
+                <!-- Icon Divider -->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -56,33 +64,33 @@
             </div>
         </header>
 
-        <!-- form Section-->
+        <!-- form Section -->
         <section class="page-section" id="form">
             <div class="container">
-                <!-- Contact Section Form-->
+                <!-- Contact Section Form -->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
                         <form id="eventForm" action="/createEvent" method="POST">
                             @csrf
-                            <!-- Date input-->
+                            <!-- Date input -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." required/>
                                 <label for="date">日期：</label>
                             </div>
 
-                            <!-- Name input-->
+                            <!-- Name input -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." required/>
                                 <label for="name">名稱：</label>
                             </div>
 
-                            <!-- Member input-->
+                            <!-- Member input -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
                                 <label for="member">成員：</label>
                             </div>
 
-                            <!-- Member input-->
+                            <!-- Member input -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
                                 <label for="member">成員：</label>
@@ -92,14 +100,14 @@
 
                             <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg" style="margin-bottom: 30px">+</button>
 
-                            <!-- Submit Button-->
+                            <!-- Submit Button -->
                             <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+        <!-- Footer -->
         @extends('footer')
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js?v=<?= time(); ?>"></script>
         <script>

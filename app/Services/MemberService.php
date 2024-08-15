@@ -30,23 +30,12 @@ class MemberService
     }
 
     /**
-     * 新增 member 資料
+     * 建立 member 資料
      * @param array $memberData
      * @return Member
      */
     public function createMember(array $memberData): Member
     {
         return $this->memberRepository->createMember($memberData);
-    }
-    
-    /**
-     * 更新 member 資料
-     * @param int $memberId
-     * @param array $newMemberData
-     * @return Member
-     */
-    public function updateMember(int $memberId, array $newMemberData): Member
-    {
-        return $this->memberRepository->updateMember($memberId, $newMemberData);
     }
 }

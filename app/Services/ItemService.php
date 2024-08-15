@@ -20,16 +20,6 @@ class ItemService
     }
 
     /**
-     * 利用 id 取得 item 資料
-     * @param int $itemId
-     * @return Item[]
-     */
-    public function getItemById(int $itemId): array
-    {
-        return $this->itemRepository->getItemById($itemId);
-    }
-
-    /**
      * 利用 event id 取得 event 資料
      * @param int $eventId
      * @return Item[]
@@ -59,21 +49,23 @@ class ItemService
     }
 
     /**
-     * 更新 item 資料
+     * 更新 item
      * @param int $itemId
      * @param array $newItemData
+     * @return int
      */
-    public function updateItem(int $itemId, array $newItemData)
+    public function updateItem(int $itemId, array $newItemData): int
     {
         return $this->itemRepository->updateItem($itemId, $newItemData);
     }
 
     /**
-     * 刪除 item 資料
+     * 刪除 item
      * @param int $eventId
      * @param int $itemId
+     * @return int
      */
-    public function deleteItemByEventIdAndItemId(int $eventId, int $itemId)
+    public function deleteItemByEventIdAndItemId(int $eventId, int $itemId): int
     {
         return $this->itemRepository->deleteItemByEventIdAndItemId($eventId, $itemId);
     }

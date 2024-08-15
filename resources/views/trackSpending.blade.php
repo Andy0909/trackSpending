@@ -2,7 +2,15 @@
 <html lang="en">
     @extends('header')
     <body id="page-top">
-        <!-- Navigation-->
+
+        <!-- 有錯誤訊息就用 alert 提醒 -->
+        @if (session('errorMessage'))
+            <script>
+                alert("{{ session('errorMessage') }}");
+            </script>
+        @endif
+
+        <!-- Navigation -->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand">分帳軟體</a>
@@ -25,18 +33,12 @@
             </div>
         </nav><br><br>
 
-        @if ($errors->count())
-            @foreach ($errors->all() as $error)
-                <script>alert("{{ $error }}");</script>
-            @endforeach
-        @endif
-
-        <!-- Masthead-->
+        <!-- Masthead -->
         <header class="page-section bg-light mb-0">
             <div class="container d-flex align-items-center flex-column">
-                <!-- Masthead Heading-->
+                <!-- Masthead Heading -->
                 <h1 class="masthead-heading text-uppercase mb-0">{{$eventName}}</h1>
-                <!-- Icon Divider-->
+                <!-- Icon Divider -->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -45,12 +47,12 @@
             </div>
         </header>
 
-        <!-- member Section-->
+        <!-- member Section -->
         <section class="page-section bg-primary text-white mb-0" id="member">
             <div class="container">
-                <!-- member Section Heading-->
+                <!-- member Section Heading -->
                 <h2 class="page-section-heading text-center text-uppercase text-white">成員</h2>
-                <!-- Icon Divider-->
+                <!-- Icon Divider -->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -73,12 +75,12 @@
             </div>
         </section>
 
-        <!-- list Section-->
+        <!-- list Section -->
         <section class="page-section bg-light mb-0" id="list">
             <div class="container">
-                <!-- member Section Heading-->
+                <!-- member Section Heading -->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">金額明細</h2>
-                <!-- Icon Divider-->
+                <!-- Icon Divider -->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -101,12 +103,12 @@
             </div>
         </section>
 
-        <!-- spend Section-->
+        <!-- spend Section -->
         <section class="page-section bg-primary text-white mb-0" id="spend">
             <div class="container">
-                <!-- spend Section Heading-->
+                <!-- spend Section Heading -->
                 <h2 class="page-section-heading text-center text-uppercase text-white">分帳結果</h2>
-                <!-- Icon Divider-->
+                <!-- Icon Divider -->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -131,18 +133,18 @@
             </div>
         </section>
 
-        <!-- createRecord Section-->
+        <!-- createRecord Section -->
         <section class="page-section" id="createRecord">
             <div class="container">
-                <!-- createRecord Section Heading-->
+                <!-- createRecord Section Heading -->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">新增項目</h2>
-                <!-- Icon Divider-->
+                <!-- Icon Divider -->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
-                <!-- createRecord Section Form-->
+                <!-- createRecord Section Form -->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
                         <form id="newItemForm" action="/createItem" method="POST">
@@ -150,25 +152,25 @@
 
                             <input class="form-control" id="eventId" name="eventId" type="hidden" value="{{$eventId}}" required/>
 
-                            <!-- Date-->
+                            <!-- Date -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." required/>
                                 <label for="date">日期：</label>
                             </div>
 
-                            <!-- Name input-->
+                            <!-- Name input -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="item" name="item" type="text" placeholder="Enter item..." required/>
                                 <label for="item">名稱：</label>
                             </div>
 
-                            <!-- price input-->
+                            <!-- price input -->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="price" name="price" type="number" min="1" placeholder="Enter price..." required/>
                                 <label for="price">金額：</label>
                             </div>
                             
-                            <!-- payer input-->
+                            <!-- payer input -->
                             <div class="form-floating mb-3" style="padding-bottom: 10%">
                                 <label id="payerLable" for="payer">付錢者：</label>
                             </div>
@@ -178,7 +180,7 @@
                                 @endforeach
                             </select>
 
-                            <!-- average input-->
+                            <!-- average input -->
                             <div class="form-floating mb-3" style="padding-bottom: 10%">
                                 <label id="averageLable" for="average">分攤者：</label>
                             </div>
@@ -188,7 +190,7 @@
                                 @endforeach
                             </select>
 
-                            <!-- Submit Button-->
+                            <!-- Submit Button -->
                             <div><center><input class="btn btn-primary" style="margin-top: 5%" id="submit" type="submit" value="Send"></center></div>
                         </form>
                     </div>
@@ -206,9 +208,9 @@
         <!-- Footer-->
         @extends('footer')
 
-        <!-- Bootstrap core JS-->
+        <!-- Bootstrap core JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js?v=<?= time(); ?>"></script>
-        <!-- Multi Select-->
+        <!-- Multi Select -->
         <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js?v=<?= time(); ?>"></script>
         <script>
             function logout() {

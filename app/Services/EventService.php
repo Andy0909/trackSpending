@@ -58,15 +58,4 @@ class EventService
     {
         return $this->eventRepository->createEvent($eventData);
     }
-    
-    /**
-     * 更新 event 資料
-     * @param int $eventId
-     * @param array $newEventData
-     * @return Event
-     */
-    public function updateEvent(int $eventId, array $newEventData): Event
-    {
-        return $this->eventRepository->updateEvent($eventId, $newEventData);
-    }
 }

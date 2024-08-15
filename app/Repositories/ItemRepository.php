@@ -20,22 +20,6 @@ class ItemRepository implements ItemRepositoryInterface
     }
 
     /**
-     * 利用 id 取得 item 資料
-     * @param int $itemId
-     * @return Item[]
-     */
-    public function getItemById(int $itemId): array
-    {
-        return $this->itemModel
-            ->newQuery()
-            ->where('id', $itemId)
-            ->with('member')
-            ->with('item')
-            ->get()
-            ->all();
-    }
-
-    /**
      * 利用 event id 取得 item 資料
      * @param int $eventId
      * @return Item[]
@@ -66,8 +50,9 @@ class ItemRepository implements ItemRepositoryInterface
     /**
      * 新增 item
      * @param array $itemData
+     * @return Item
      */
-    public function createItem(array $itemData)
+    public function createItem(array $itemData): Item
     {
         return $this->itemModel
             ->newQuery()
@@ -78,8 +63,9 @@ class ItemRepository implements ItemRepositoryInterface
      * 更新 item
      * @param int $itemId
      * @param array $newItemData
+     * @return int
      */
-    public function updateItem(int $itemId, array $newItemData) 
+    public function updateItem(int $itemId, array $newItemData): int
     {
         return $this->itemModel
             ->newQuery()
@@ -91,8 +77,9 @@ class ItemRepository implements ItemRepositoryInterface
      * 刪除 item
      * @param int $eventId
      * @param int $itemId
+     * @return int
      */
-    public function deleteItemByEventIdAndItemId(int $eventId, int $itemId) 
+    public function deleteItemByEventIdAndItemId(int $eventId, int $itemId): int
     {
         return $this->itemModel
             ->newQuery()

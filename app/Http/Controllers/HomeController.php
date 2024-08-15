@@ -61,33 +61,32 @@ class HomeController extends Controller
     }
 
     /**
-     * createEventPage
-     * @param Request $request
+     * 新增活動頁面
      */
     public function createEventPage()
     {
         // 取得 session 資料
         $sessionData = $this->getSessionData();
 
-        // 取得 event 資料
+        // 取得活動資料
         $userEvent = $this->eventService->getEventByUserId($sessionData['userId']);
 
         return view('createEvent', array_merge($sessionData, ['userEvent' => $userEvent,]));
     }
 
     /**
-     * createEventProcess
+     * 新增活動
      * @param Request $request
      */
     public function createEventProcess(Request $request)
     {
-        // 取得用戶輸入之事件資料
+        // 取得用戶輸入之活動資料
         $eventData = $request->all();
 
         DB::beginTransaction();
 
         try {
-            // 新增事件
+            // 新增活動
             $event = $this->eventService->createEvent([
                 'user_id'    => $this->sessionService->getSession('userId'),
                 'event_name' => $eventData['name'],
@@ -104,18 +103,22 @@ class HomeController extends Controller
 
             DB::commit();
 
+            // 活動資料存進 cache
             $this->cacheService->setCache(['event_' . $event->id => $event,]);
+
+            // 活動 id 存進 seesion 讓 trackSpendingPage 使用
             $this->sessionService->setSession(['eventId' => $event->id,]);
+
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->back()->withErrors(self::ERROR_MESSAGE)->withInput();
+            return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE)->withInput();
         }
 
         return redirect()->route('trackSpendingPage');
     }
 
     /**
-     * trackSpendingPage
+     * 分帳頁面
      * @param Request $request
      */
     public function trackSpendingPage(Request $request)
@@ -161,7 +164,6 @@ class HomeController extends Controller
 
     /**
      * 取得 Session 資料
-     *
      * @return array 包含 userName, userId, token 的陣列
      */
     private function getSessionData(): array
@@ -180,7 +182,7 @@ class HomeController extends Controller
     }
 
     /**
-     * createItemProcess
+     * 新增分帳項目
      * @param Request $request
      */
     public function createItemProcess(Request $request)
@@ -188,7 +190,7 @@ class HomeController extends Controller
         // 取得項目資料
         $itemData = $request->all();
 
-        // 取得資料庫最後一個項目的 id 並 + 1
+        // 取得資料庫最後一個 item_id 並 + 1
         $lastItemId = $this->itemService->getLastItemId();
         $newItemId = $lastItemId ? $lastItemId + 1 : 1;
 
@@ -196,29 +198,32 @@ class HomeController extends Controller
 
         try {
             // 新增項目
-            collect($itemData['average'])->each(function ($averageMember) use ($itemData, $newItemId) {
+            collect($itemData['average'])->each(function (string $shareMember) use ($itemData, $newItemId) {
                 $this->itemService->createItem([
                     'event_id'     => $itemData['eventId'],
                     'item_id'      => $newItemId,
                     'item_name'    => $itemData['item'],
                     'price'        => $itemData['price'],
                     'payer'        => $itemData['payer'],
-                    'share_member' => $averageMember,
+                    'share_member' => $shareMember,
                 ]);
             });
  
             DB::commit();
+
+            // 刪除 cache 以抓取新資料
             $this->cacheService->forgetCache('event_' . $itemData['eventId']);
+
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
+            return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE)->withInput();
         }
 
         return redirect()->back();
     }
 
     /**
-     * updateItemProcess
+     * 更新分帳項目
      * @param Request $request
      */
     public function updateItemProcess(Request $request)
@@ -226,7 +231,7 @@ class HomeController extends Controller
         // 取得項目資料
         $itemData = $request->all();
 
-        // 取得資料庫最後一個項目的 id 並 + 1
+        // 取得資料庫最後一個 item_id 並 + 1
         $lastItemId = $this->itemService->getLastItemId();
         $newItemId = $lastItemId ? $lastItemId + 1 : 1;
 
@@ -237,22 +242,25 @@ class HomeController extends Controller
             $this->itemService->deleteItemByEventIdAndItemId($itemData['eventId'], $itemData['itemId']);
 
             // 新增項目
-            collect($itemData['updateAverage'])->each(function ($averageMember) use ($itemData, $newItemId) {
+            collect($itemData['updateAverage'])->each(function ($shareMember) use ($itemData, $newItemId) {
                 $this->itemService->createItem([
                     'event_id'     => $itemData['eventId'],
                     'item_id'      => $newItemId,
                     'item_name'    => $itemData['updateItem'],
                     'price'        => $itemData['updatePrice'],
                     'payer'        => $itemData['updatePayer'],
-                    'share_member' => $averageMember,
+                    'share_member' => $shareMember,
                 ]);
             });
 
             DB::commit();
+
+            // 刪除 cache 以抓取新資料
             $this->cacheService->forgetCache('event_' . $itemData['eventId']);
+    
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->back()->withErrors(self::ERROR_MESSAGE);
+            return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE);
         }
 
         return redirect()->back();

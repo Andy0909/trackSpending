@@ -1,22 +1,22 @@
-<?php
+<?php 
 
-namespace App\Repositories;
+namespace App\Services;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 use App\Models\User;
 
-class UserRepository implements UserRepositoryInterface 
+class UserService
 {
-    /** @var User */
-    private $userModel;
+    /** @var UserRepository */
+    private $userRepository;
 
     /**
      * construct
-     * @param User $userModel
+     * @param UserRepository $userRepository
      */
-    public function __construct(User $userModel) 
+    public function __construct(UserRepository $userRepository) 
     {
-        $this->userModel = $userModel;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -26,7 +26,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUserById(int $userId): User
     {
-        return $this->userModel->findOrFail($userId);
+        return $this->userRepository->getUserById($userId);
     }
 
     /**
@@ -36,9 +36,9 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUserByEmail(string $userEmail): User
     {
-        return $this->userModel->where('email', $userEmail)->first();
+        return $this->userRepository->getUserByEmail($userEmail);
     }
-
+    
     /**
      * 創建用戶
      * @param array $registerData
@@ -46,6 +46,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function createUser(array $registerData): User
     {
-        return $this->userModel->create($registerData);
+        return $this->userRepository->createUser($registerData);
     }
 }

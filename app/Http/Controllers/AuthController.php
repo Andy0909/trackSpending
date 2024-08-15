@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\UserRepository;
 use App\Services\SessionService;
+use App\Services\UserService;
 use App\Services\ValidateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Exception;
 
 class AuthController extends Controller
@@ -21,34 +20,37 @@ class AuthController extends Controller
     /** @const string */
     const PASSWORD_ERROR_MESSAGE = '帳號密碼輸入錯誤。';
 
-    /** @var  UserRepository */
-    private $userRepository;
-
-    /** @var  SessionService */
+    /** @var SessionService */
     private $sessionService;
 
-    /** @var  ValidateService */
+    /** @var UserService */
+    private $userService;
+
+    /** @var ValidateService */
     private $validateService;
     
     /**
-     * @param UserRepository $userRepository
      * @param SessionService $sessionService
+     * @param UserService $userService
      * @param ValidateService $validateService
      */
-    public function __construct(UserRepository $userRepository, SessionService $sessionService, ValidateService $validateService) 
+    public function __construct(SessionService $sessionService, UserService $userService, ValidateService $validateService) 
     {
-        $this->userRepository = $userRepository;
         $this->sessionService = $sessionService;
+        $this->userService = $userService;
         $this->validateService = $validateService;
     }
 
+    /**
+     * 註冊頁
+     */
     public function registerPage()
     {
         return view('register');
     }
 
     /**
-     * registerProcess
+     * 註冊會員
      * @param Request $request
      */
     public function registerProcess(Request $request)
@@ -62,7 +64,7 @@ class AuthController extends Controller
         
         try {
             // 新增新用戶
-            $this->userRepository->createUser([
+            $this->userService->createUser([
                 'name'     => $request['name'],
                 'email'    => $request['email'],
                 'password' => Hash::make($request['password']),
@@ -75,6 +77,9 @@ class AuthController extends Controller
         return redirect()->route('loginPage')->with('registerSuccessMessage', self::REGISTER_SUCCESS_MESSAGE);
     }
 
+    /**
+     * 登入頁
+     */
     public function loginPage()
     {
         // 取 session 資料
@@ -93,7 +98,7 @@ class AuthController extends Controller
     }
 
     /**
-     * loginProcess
+     * 登入會員
      * @param Request $request
      */
     public function loginProcess(Request $request)
@@ -110,7 +115,7 @@ class AuthController extends Controller
 
         try {
             // 使用信箱取得用戶資料
-            $user = $this->userRepository->getUserByEmail($loginData['email']);
+            $user = $this->userService->getUserByEmail($loginData['email']);
 
             // 若找不到用戶或密碼錯誤則回登入頁
             if (!$user || !Hash::check($loginData['password'], $user->password)) {
@@ -146,7 +151,7 @@ class AuthController extends Controller
     {
         try {
             // 使用 id 取得用戶資料
-            $user = $this->userRepository->getUserById($request->all()['userId']);
+            $user = $this->userService->getUserById($request->all()['userId']);
 
             // 刪除用戶 token
             $user->tokens()->delete();

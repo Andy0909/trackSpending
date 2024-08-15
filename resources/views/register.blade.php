@@ -22,6 +22,7 @@
             </div>
         </header>
 
+        <!-- 有錯誤訊息就用 alert 提醒 -->
         @if ($errors->count())
             @foreach ($errors->all() as $error)
                 <script>alert("{{ $error }}");</script>

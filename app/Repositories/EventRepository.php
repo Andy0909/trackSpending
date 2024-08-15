@@ -59,18 +59,4 @@ class EventRepository implements EventRepositoryInterface
             ->newQuery()
             ->create($eventData);
     }
-
-    /**
-     * 更新 event 資料
-     * @param int $eventId
-     * @param array $newEventData
-     * @return Event
-     */
-    public function updateEvent(int $eventId, array $newEventData): Event
-    {
-        return $this->eventModel
-            ->newQuery()
-            ->whereId($eventId)
-            ->update($newEventData);
-    }
 }

@@ -30,17 +30,12 @@ class MemberRepository implements MemberRepositoryInterface
     }
 
     /**
-     * 利用 id 取得 member 資料
-     * @param int $memberId
+     * 建立 member 資料
+     * @param array $memberData
      * @return Member
      */
-    public function createMember(array $memberData) 
+    public function createMember(array $memberData): Member
     {
         return $this->memberModel->create($memberData);
-    }
-
-    public function updateMember(int $memberId, array $newMemberData) 
-    {
-        return $this->memberModel->whereId($memberId)->update($newMemberData);
     }
 }
