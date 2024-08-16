@@ -7,6 +7,7 @@ use App\Services\UserService;
 use App\Services\ValidateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 use Exception;
 
 class AuthController extends Controller
@@ -141,6 +142,70 @@ class AuthController extends Controller
         }
 
         return redirect()->route('createEventPage');
+    }
+
+    // github login
+    public function redirectToGithub()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    // github callback
+    public function handleGithubCallback()
+    {
+        $userData = Socialite::driver('github')->user();
+
+        $result = $this->createUserFromSocialite($userData);
+
+        return $result ? redirect()->route('createEventPage') : redirect('/');
+    }
+
+    // google login
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    // google callback
+    public function handleGoogleCallback()
+    {
+        $userData = Socialite::driver('google')->user();
+
+        $result = $this->createUserFromSocialite($userData);
+
+        return $result ? redirect()->route('createEventPage') : redirect('/');
+    }
+
+    private function createUserFromSocialite($userData)
+    {
+        try {
+            $user = $this->userService->getUserByEmail($userData->email)->first();
+
+            if (!$user) {
+                $user = $this->userService->createUser([
+                    'name' => $userData->name,
+                    'email' => $userData->email,
+                ]);
+            }
+
+            $token = $user->createToken('token')->plainTextToken;
+
+            // 用戶資料
+            $userData = [
+                'userId'    => $user->id,
+                'userName'  => $user->name,
+                'userEmail' => $user->email,
+                'token'     => $token,
+            ];
+
+            // 將用戶資料存進 session
+            $this->sessionService->setSession($userData);
+
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

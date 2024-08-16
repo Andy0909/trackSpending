@@ -22,3 +22,15 @@ $("#event").change(function() {
 function logout() {
     $("#logout").submit();
 }
+
+$('#socialLogin').click(function() {
+    var isExpanded = $(this).attr('aria-expanded') === 'true';
+    
+    if (isExpanded) {
+        $(this).attr('aria-expanded', 'false');
+        $('#socialLoginCollapse').hide();
+    } else {
+        $(this).attr('aria-expanded', 'true');
+        $('#socialLoginCollapse').show();
+    }
+});
