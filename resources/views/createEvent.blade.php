@@ -1,20 +1,4 @@
 <!DOCTYPE html>
-<style>
-    .btn-circle.btn-lg {
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        padding: 6px 0;
-        font-size: 12px;
-        line-height: 1.428571429;
-        border-radius: 15px;
-    }
-    .form_style{
-        width: 800px;
-        height: 30px;
-        margin: 0 auto;
-    }
-</style>
 <html lang="en">
     @extends('header')
     <body id="page-top">
@@ -74,29 +58,23 @@
                             @csrf
                             <!-- Date input -->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="date" name="date" type="date" placeholder="Enter date..." required/>
+                                <input class="form-control" id="date" name="date" type="date" placeholder="" required/>
                                 <label for="date">日期：</label>
                             </div>
 
                             <!-- Name input -->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter name..." required/>
+                                <input class="form-control" id="name" name="name" type="text" placeholder="" required/>
                                 <label for="name">名稱：</label>
                             </div>
 
-                            <!-- Member input -->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
-                                <label for="member">成員：</label>
+                            <!-- Member inputs -->
+                            <div id="memberContainer">
+                                <div class="form-floating mb-3 member-entry">
+                                    <input class="form-control" name="member[]" type="text" placeholder="" required/>
+                                    <label for="member">成員：</label>
+                                </div>
                             </div>
-
-                            <!-- Member input -->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
-                                <label for="member">成員：</label>
-                            </div>
-                            
-                            <div id="newMember"></div>
 
                             <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg" style="margin-bottom: 30px">+</button>
 
@@ -109,29 +87,5 @@
         </section>
         <!-- Footer -->
         @extends('footer')
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js?v=<?= time(); ?>"></script>
-        <script>
-            $('#addMember').click(function() {
-                $('#newMember').prepend(`
-                    <div class="form-floating mb-3">
-                        <button id="removeMember" type="button" class="btn btn-danger btn-circle btn-lg">-</button>
-                        <input class="form-control" name="member[]" type="text" placeholder="Enter member..." required/>
-                        <label for="member" style="margin-top: 20px">成員：</label>
-                    </div>
-                `)
-            })
-
-            $('#newMember').on('click', '#removeMember', function() {
-                $(this).parent().remove();
-            });
-
-            $("#event").change(function() {
-                $("#postEventId").submit();
-            });
-
-            function logout() {
-                $("#logout").submit();
-            }
-        </script>
     </body>
 </html>

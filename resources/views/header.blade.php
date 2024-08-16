@@ -4,8 +4,6 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Track Spending</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon.ico') }}" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -18,7 +16,6 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js?v={{ time() }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js?v={{ time() }}"></script>
-    <script href="{{ asset('js/script.js') }}"></script>
-    <!-- Core theme JS-->
-    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js?v={{ time() }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/trackSpending.js') }}"></script>
 </head>

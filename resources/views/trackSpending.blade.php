@@ -204,20 +204,10 @@
         @extends('viewModal/listModal')
         <!-- spend Modal -->
         @extends('viewModal/spendModal')
-
         <!-- Footer-->
         @extends('footer')
-
-        <!-- Bootstrap core JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js?v=<?= time(); ?>"></script>
         <!-- Multi Select -->
         <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js?v=<?= time(); ?>"></script>
-        <script>
-            function logout() {
-                $("#logout").submit();
-            }
-
-            new MultiSelectTag('average')  //id
-        </script>
+        <script> new MultiSelectTag('average')  //id </script>
     </body>
 </html>
