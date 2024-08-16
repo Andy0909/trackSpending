@@ -26,4 +26,12 @@ interface UserRepositoryInterface
      * @return User
      */
     public function createUser(array $registerData): User;
+
+    /**
+     * 更新用戶資料
+     * @param string $userEmail
+     * @param array $updateData
+     * @return int
+     */
+    public function updateUserByEmail(string $userEmail, array $updateData): int;
 }

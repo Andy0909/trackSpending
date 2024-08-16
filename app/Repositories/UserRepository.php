@@ -48,4 +48,17 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->userModel->create($registerData);
     }
+
+    /**
+     * 更新用戶資料
+     * @param string $userEmail
+     * @param array $updateData
+     * @return int
+     */
+    public function updateUserByEmail(string $userEmail, array $updateData): int
+    {
+        return $this->userModel
+            ->where('email', $userEmail)
+            ->update($updateData);
+    }
 }

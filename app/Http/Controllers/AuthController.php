@@ -126,6 +126,9 @@ class AuthController extends Controller
             // 產生用戶 token
             $token = $user->createToken('token')->plainTextToken;
 
+            // token 寫入資料庫
+            $this->userService->updateUserByEmail($user->email, ['remember_token' => $token,]);
+
             // 用戶資料
             $userData = [
                 'userId'    => $user->id,
@@ -176,7 +179,13 @@ class AuthController extends Controller
         return $result ? redirect()->route('createEventPage') : redirect('/');
     }
 
-    private function createUserFromSocialite($userData)
+    /**
+     * 第三方登入
+     *
+     * @param $userData
+     * @return boolean
+     */
+    private function createUserFromSocialite($userData): bool
     {
         try {
             $user = $this->userService->getUserByEmail($userData->email)->first();
@@ -188,7 +197,11 @@ class AuthController extends Controller
                 ]);
             }
 
+            // 產生用戶 token
             $token = $user->createToken('token')->plainTextToken;
+
+            // token 寫入資料庫
+            $this->userService->updateUserByEmail($user->email, ['remember_token' => $token,]);
 
             // 用戶資料
             $userData = [
@@ -228,6 +241,6 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(self::ERROR_MESSAGE);
         }
 
-        return redirect('/login');
+        return redirect('/');
     }
 }
