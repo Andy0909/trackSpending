@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +39,11 @@ Route::post('/createEvent', [HomeController::class , 'createEventProcess'])->nam
 Route::match(['get', 'post'], '/trackSpending', [HomeController::class, 'trackSpendingPage'])->name('trackSpendingPage');
 Route::post('/createItem', [HomeController::class , 'createItemProcess'])->name('createItemProcess');
 Route::post('/updateItem', [HomeController::class , 'updateItemProcess'])->name('updateItemProcess');
+
+// github 第三方登入
+Route::get('/login/github', [AuthController::class, 'redirectToGithub'])->name('login.github');
+Route::get('/login/github/callback', [AuthController::class, 'handleGithubCallback']);
+
+// google 第三方登入
+Route::get('/login/google', [AuthController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/login/google/callback', [AuthController::class, 'handleGoogleCallback']);

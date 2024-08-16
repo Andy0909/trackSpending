@@ -33,7 +33,16 @@
                             <center>
                                 <button class="btn btn-primary" id="register" type="button" onclick="window.location.href='/register';">註冊</button>
                                 <button class="btn btn-primary" id="login" type="button" onclick="window.location.href='/login';">登入</button>
+                                <button class="btn btn-primary" id="socialLogin" type="button" data-toggle="collapse" data-target="#socialLoginCollapse" aria-expanded="false" aria-controls="socialLoginCollapse">
+                                    第三方登入
+                                </button>
                             </center>
+                        </div>
+                        <div class="collapse" id="socialLoginCollapse" style="margin-top: 10px;">
+                            <div class="card card-body">
+                                <a href="{{ route('login.github') }}" class="btn btn-dark btn-block" style="margin-bottom: 10px;">Login with Github</a>
+                                <a href="{{ route('login.google') }}" class="btn btn-danger btn-block">Login with Google</a>
+                            </div>
                         </div>
                     </div>
                 </div>
