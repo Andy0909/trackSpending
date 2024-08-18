@@ -16,9 +16,9 @@ interface UserRepositoryInterface
     /**
      * 使用 email 取得用戶資料
      * @param string $userEmail
-     * @return User
+     * @return User|null
      */
-    public function getUserByEmail(string $userEmail): User;
+    public function getUserByEmail(string $userEmail): User|null;
 
     /**
      * 創建用戶
