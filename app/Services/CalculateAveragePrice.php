@@ -9,11 +9,11 @@ class CalculateAveragePrice
      * @param array $spendList
      * @return array $result
      */
-    public function calculateAveragePrice(array $spendList): array
+    public function calculateAveragePrice(array $formattedItems): array
     {
         $result = [];
 
-        foreach ($spendList as $key => $value) {
+        foreach ($formattedItems as $key => $value) {
             $average = round($value['price'] / count($value['shareMember']), 2);
             $payer = $value['payer'];
 

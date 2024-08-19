@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CacheService;
 use App\Services\CalculateAveragePrice;
 use App\Services\EventService;
-use App\Services\GetSpendListService;
+use App\Services\ItemsFormatService;
 use App\Services\ItemService;
 use App\Services\MemberService;
 use App\Services\SessionService;
@@ -27,8 +27,8 @@ class HomeController extends Controller
     /** @var EventService */
     private $eventService;
 
-    /** @var GetSpendListService */
-    private $getSpendListService;
+    /** @var ItemsFormatService */
+    private $itemsFormatService;
 
     /** @var ItemService */
     private $itemService;
@@ -44,17 +44,17 @@ class HomeController extends Controller
      * @param CacheService $cacheService
      * @param CalculateAveragePrice $calculateAveragePrice
      * @param EventService $eventService
-     * @param GetSpendListService $getSpendListService
+     * @param ItemsFormatService $itemsFormatService
      * @param ItemService $itemService
      * @param MemberService $memberService
      * @param SessionService $sessionService
      */
-    public function __construct(CacheService $cacheService, CalculateAveragePrice $calculateAveragePrice, EventService $eventService, GetSpendListService $getSpendListService, ItemService $itemService, MemberService $memberService, SessionService $sessionService) 
+    public function __construct(CacheService $cacheService, CalculateAveragePrice $calculateAveragePrice, EventService $eventService, ItemsFormatService $itemsFormatService, ItemService $itemService, MemberService $memberService, SessionService $sessionService) 
     {
         $this->cacheService = $cacheService;
         $this->calculateAveragePrice = $calculateAveragePrice;
         $this->eventService = $eventService;
-        $this->getSpendListService = $getSpendListService;
+        $this->itemsFormatService = $itemsFormatService;
         $this->itemService = $itemService;
         $this->memberService = $memberService;
         $this->sessionService = $sessionService;
@@ -145,19 +145,19 @@ class HomeController extends Controller
         $items = $eventData->item;
 
         // 整理項目的花費資訊
-        $spendList = $this->getSpendListService->formatItems($eventData->item);
+        $formattedItems = $this->itemsFormatService->formatItems($items);
 
         // 計算成員花費平均
-        $averageResult = $this->calculateAveragePrice->calculateAveragePrice($spendList);
+        $averageResult = $this->calculateAveragePrice->calculateAveragePrice($formattedItems);
 
         return view('trackSpending', array_merge($sessionData, 
             [
-                'eventId'       => $eventId,
-                'eventName'     => $eventName,
-                'eventMember'   => $eventMember,
-                'items'         => $items,
-                'spendList'     => $spendList,
-                'averageResult' => $averageResult,
+                'eventId'        => $eventId,
+                'eventName'      => $eventName,
+                'eventMember'    => $eventMember,
+                'items'          => $items,
+                'formattedItems' => $formattedItems,
+                'averageResult'  => $averageResult,
             ]
         ));
     }

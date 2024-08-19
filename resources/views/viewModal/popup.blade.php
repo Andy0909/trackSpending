@@ -24,7 +24,7 @@
                     </div>
                     <select class="form-select" id="updatePayer" name="updatePayer" required>
                         @foreach ($eventMember as $member)
-                            <option value={{$member['id']}}>{{$member['name']}}</option>
+                            <option value="{{ $member['id'] }}">{{ $member['name'] }}</option>
                         @endforeach
                     </select>
 
@@ -34,7 +34,7 @@
                     </div>
                     <select class="selectpicker" id="updateAverage" name="updateAverage[]"  multiple>
                         @foreach ($eventMember as $member)
-                            <option value={{$member['id']}}>{{$member['name']}}</option>
+                            <option value="{{ $member['id'] }}">{{ $member['name'] }}</option>
                         @endforeach
                     </select>
 

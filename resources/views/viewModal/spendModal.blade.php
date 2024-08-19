@@ -12,9 +12,9 @@
                                     @foreach ($item as $shareMember => $value)
                                         <tr>
                                             @if ($value < 0)
-                                                <td>{{$payer}} 欠 {{$shareMember}} {{abs($value)}} 元</td>
+                                                <td>{{$payer}} 需付 {{$shareMember}} {{abs($value)}} 元</td>
                                             @else
-                                                <td>{{$shareMember}} 欠 {{$payer}} {{$value}} 元</td>
+                                                <td>{{$shareMember}} 需付 {{$payer}} {{$value}} 元</td>
                                             @endif
                                         </tr>
                                     @endforeach
