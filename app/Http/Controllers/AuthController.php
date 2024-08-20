@@ -188,9 +188,9 @@ class AuthController extends Controller
     private function createUserFromSocialite($userData): bool
     {
         try {
-            $user = $this->userService->getUserByEmail($userData->email)->first();
+            $user = $this->userService->getUserByEmail($userData->email);
 
-            if (is_null($user)) {
+            if (!$user) {
                 $user = $this->userService->createUser([
                     'name' => $userData->name,
                     'email' => $userData->email,
