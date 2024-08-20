@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CacheService;
-use App\Services\CalculateAveragePrice;
+use App\Services\CalculateAveragePriceService;
 use App\Services\EventService;
 use App\Services\ItemsFormatService;
 use App\Services\ItemService;
@@ -21,8 +21,8 @@ class HomeController extends Controller
     /** @var CacheService */
     private $cacheService;
 
-    /** @var CalculateAveragePrice */
-    private $calculateAveragePrice;
+    /** @var CalculateAveragePriceService */
+    private $calculateAveragePriceService;
 
     /** @var EventService */
     private $eventService;
@@ -42,17 +42,25 @@ class HomeController extends Controller
     /**
      * construct
      * @param CacheService $cacheService
-     * @param CalculateAveragePrice $calculateAveragePrice
+     * @param CalculateAveragePriceService $calculateAveragePriceService
      * @param EventService $eventService
      * @param ItemsFormatService $itemsFormatService
      * @param ItemService $itemService
      * @param MemberService $memberService
      * @param SessionService $sessionService
      */
-    public function __construct(CacheService $cacheService, CalculateAveragePrice $calculateAveragePrice, EventService $eventService, ItemsFormatService $itemsFormatService, ItemService $itemService, MemberService $memberService, SessionService $sessionService) 
+    public function __construct(
+        CacheService $cacheService,
+        CalculateAveragePriceService $calculateAveragePriceService,
+        EventService $eventService,
+        ItemsFormatService $itemsFormatService,
+        ItemService $itemService,
+        MemberService $memberService,
+        SessionService $sessionService
+    ) 
     {
         $this->cacheService = $cacheService;
-        $this->calculateAveragePrice = $calculateAveragePrice;
+        $this->calculateAveragePriceService = $calculateAveragePriceService;
         $this->eventService = $eventService;
         $this->itemsFormatService = $itemsFormatService;
         $this->itemService = $itemService;
@@ -148,7 +156,7 @@ class HomeController extends Controller
         $formattedItems = $this->itemsFormatService->formatItems($items);
 
         // 計算成員花費平均
-        $averageResult = $this->calculateAveragePrice->calculateAveragePrice($formattedItems);
+        $averageResult = $this->calculateAveragePriceService->calculateAveragePrice($formattedItems);
 
         return view('trackSpending', array_merge($sessionData, 
             [
