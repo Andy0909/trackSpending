@@ -190,7 +190,7 @@ class AuthController extends Controller
         try {
             $user = $this->userService->getUserByEmail($userData->email)->first();
 
-            if (!$user) {
+            if (is_null($user)) {
                 $user = $this->userService->createUser([
                     'name' => $userData->name,
                     'email' => $userData->email,
