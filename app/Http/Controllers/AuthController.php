@@ -176,28 +176,22 @@ class AuthController extends Controller
 
         $result = $this->createUserFromSocialite($userData);
 
-        return $result ? redirect()->route('createEventPage') : redirect('/');
+        return $result['status'] ? redirect()->route('createEventPage') : redirect('/')->withErrors($result['message']);
     }
 
     /**
      * 第三方登入
      *
      * @param $userData
-     * @return boolean
+     * @return array
      */
-    private function createUserFromSocialite($userData): bool
+    private function createUserFromSocialite($userData): array
     {
         try {
-            $user = $this->userService->getUserByEmail($userData->email);
-
-            if (!$user) {
-                $user = $this->userService->createUser([
-                    'name' => $userData->name,
-                    'email' => $userData->email,
-                ]);
-            }
-
-            dd($user);
+            $user = $this->userService->createUser([
+                'name' => $userData->name,
+                'email' => $userData->email,
+            ]);
 
             // 產生用戶 token
             $token = $user->createToken('token')->plainTextToken;
@@ -217,10 +211,16 @@ class AuthController extends Controller
             $this->sessionService->setSession($userData);
 
         } catch (\Exception $e) {
-            return false;
+            return [
+                'status'  => 0,
+                'message' => $e->getMessage(),
+            ];
         }
 
-        return true;
+        return [
+            'status'  => 1,
+            'message' => '登入成功',
+        ];
     }
 
     /**
