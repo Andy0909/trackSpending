@@ -190,7 +190,7 @@ class AuthController extends Controller
     private function createUserFromSocialite($userData): bool
     {
         try {
-            $user = $this->userService->getUserByEmail($userData->email)->first();
+            $user = $this->userService->getUserByEmail($userData->email);
 
             if (!$user) {
                 $user = $this->userService->createUser([
