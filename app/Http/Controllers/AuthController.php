@@ -174,11 +174,11 @@ class AuthController extends Controller
     {
         $userData = Socialite::driver('google')->user();
 
-        return $userData; // 測試 google 登入
+        dd($userData); // 測試 google 登入
 
-        //$result = $this->createUserFromSocialite($userData);
+        $result = $this->createUserFromSocialite($userData);
 
-        //return $result ? redirect()->route('createEventPage') : redirect('/');
+        return $result ? redirect()->route('createEventPage') : redirect('/');
     }
 
     /**
