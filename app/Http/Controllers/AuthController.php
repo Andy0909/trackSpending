@@ -174,8 +174,6 @@ class AuthController extends Controller
     {
         $userData = Socialite::driver('google')->user();
 
-        dd($userData); // 測試 google 登入
-
         $result = $this->createUserFromSocialite($userData);
 
         return $result ? redirect()->route('createEventPage') : redirect('/');
@@ -198,6 +196,8 @@ class AuthController extends Controller
                     'email' => $userData->email,
                 ]);
             }
+
+            dd($user);
 
             // 產生用戶 token
             $token = $user->createToken('token')->plainTextToken;
