@@ -21,6 +21,9 @@ class AuthController extends Controller
     /** @const string */
     const PASSWORD_ERROR_MESSAGE = '帳號密碼輸入錯誤。';
 
+    /** @const string */
+    const SOCIAL_LOGIN_ERROR_MESSAGE = '第三方登入失敗。';
+
     /** @var SessionService */
     private $sessionService;
 
@@ -176,18 +179,18 @@ class AuthController extends Controller
 
         $result = $this->createUserFromSocialite($userData);
 
-        return $result['status'] ?
+        return $result ?
             redirect()->route('createEventPage') :
-            redirect()->route('/')->withErrors($result['message']);
+            redirect()->route('/')->withErrors(self::SOCIAL_LOGIN_ERROR_MESSAGE);
     }
 
     /**
      * 第三方登入
      *
      * @param $userData
-     * @return array
+     * @return bool
      */
-    private function createUserFromSocialite($userData): array
+    private function createUserFromSocialite($userData): bool
     {
         try {
             $user = $this->userService->getUserByEmail($userData->email);
@@ -218,15 +221,10 @@ class AuthController extends Controller
             $this->sessionService->setSession($userData);
 
         } catch (\Exception $e) {
-            return [
-                'status'  => 0,
-                'message' => $e->getMessage(),
-            ];
+            return false;
         }
 
-        return [
-            'status' => 1,
-        ];
+        return true;
     }
 
     /**
