@@ -174,7 +174,7 @@ class AuthController extends Controller
     {
         $userData = Socialite::driver('google')->user();
 
-        return $userData;
+        return $userData; // 測試 google 登入
 
         //$result = $this->createUserFromSocialite($userData);
 
