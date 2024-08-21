@@ -176,7 +176,9 @@ class AuthController extends Controller
 
         $result = $this->createUserFromSocialite($userData);
 
-        return $result['status'] ? redirect()->route('createEventPage') : redirect('/')->withErrors($result['message']);
+        return $result['status'] ?
+            redirect()->route('createEventPage') :
+            redirect()->route('/')->withErrors($result['message']);
     }
 
     /**
@@ -188,10 +190,15 @@ class AuthController extends Controller
     private function createUserFromSocialite($userData): array
     {
         try {
-            $user = $this->userService->createUser([
-                'name' => $userData->name,
-                'email' => $userData->email,
-            ]);
+            $user = $this->userService->getUserByEmail($userData->email);
+
+            if (!$user) {
+                $user = $this->userService->createUser([
+                    'name' => $userData->name,
+                    'email' => $userData->email,
+                    'password' => '',
+                ]);
+            }
 
             // 產生用戶 token
             $token = $user->createToken('token')->plainTextToken;
@@ -218,8 +225,7 @@ class AuthController extends Controller
         }
 
         return [
-            'status'  => 1,
-            'message' => '登入成功',
+            'status' => 1,
         ];
     }
 
