@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -19,7 +19,7 @@ class EventService
      * @param EventRepository $eventRepository
      * @param CacheService $cacheService
      */
-    public function __construct(EventRepository $eventRepository, CacheService $cacheService) 
+    public function __construct(EventRepository $eventRepository, CacheService $cacheService)
     {
         $this->eventRepository = $eventRepository;
         $this->cacheService = $cacheService;
@@ -57,6 +57,17 @@ class EventService
     public function createEvent(array $eventData): Event
     {
         return $this->eventRepository->createEvent($eventData);
+    }
+
+    /**
+     * 更新 event 資料
+     * @param int $eventId
+     * @param array $eventData
+     * @return int
+     */
+    public function updateEvent(int $eventId, array $eventData): int
+    {
+        return $this->eventRepository->updateEvent($eventId, $eventData);
     }
 
     /**

@@ -11,6 +11,7 @@ use App\Services\MemberService;
 use App\Services\SessionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 use Exception;
 
 class HomeController extends Controller
@@ -57,8 +58,7 @@ class HomeController extends Controller
         ItemService $itemService,
         MemberService $memberService,
         SessionService $sessionService
-    )
-    {
+    ) {
         $this->cacheService = $cacheService;
         $this->calculateAveragePriceService = $calculateAveragePriceService;
         $this->eventService = $eventService;
@@ -116,7 +116,6 @@ class HomeController extends Controller
 
             // 活動 id 存進 seesion 讓 trackSpendingPage 使用
             $this->sessionService->setSession(['eventId' => $event->id,]);
-
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE)->withInput();
@@ -142,7 +141,7 @@ class HomeController extends Controller
 
         // 使用 id 取得分帳事件資料
         $eventData = $this->eventService->getEventById($eventId);
-        
+
         // 取得事件名稱
         $eventName = $eventData->event_name;
 
@@ -158,7 +157,8 @@ class HomeController extends Controller
         // 計算成員花費平均
         $averageResult = $this->calculateAveragePriceService->calculateAveragePrice($formattedItems);
 
-        return view('trackSpending', array_merge($sessionData, 
+        return view('trackSpending', array_merge(
+            $sessionData,
             [
                 'eventId'        => $eventId,
                 'eventName'      => $eventName,
@@ -216,7 +216,11 @@ class HomeController extends Controller
                     'share_member' => $shareMember,
                 ]);
             });
- 
+
+            $this->eventService->updateEvent($itemData['eventId'], [
+                'updated_at' => new DateTime(),
+            ]);
+
             DB::commit();
 
             // 刪除 cache 以抓取新資料
@@ -224,7 +228,6 @@ class HomeController extends Controller
 
             // 活動 id 存進 seesion 讓 trackSpendingPage 使用
             $this->sessionService->setSession(['eventId' => $itemData['eventId'],]);
-
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE)->withInput();
@@ -264,6 +267,10 @@ class HomeController extends Controller
                 ]);
             });
 
+            $this->eventService->updateEvent($itemData['eventId'], [
+                'updated_at' => new DateTime(),
+            ]);
+
             DB::commit();
 
             // 刪除 cache 以抓取新資料
@@ -271,7 +278,6 @@ class HomeController extends Controller
 
             // 活動 id 存進 seesion 讓 trackSpendingPage 使用
             $this->sessionService->setSession(['eventId' => $itemData['eventId'],]);
-    
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->with('errorMessage', self::ERROR_MESSAGE);

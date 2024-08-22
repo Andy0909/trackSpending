@@ -6,7 +6,7 @@ use App\Interfaces\EventRepositoryInterface;
 use App\Models\Event;
 use Carbon\Carbon;
 
-class EventRepository implements EventRepositoryInterface 
+class EventRepository implements EventRepositoryInterface
 {
     /** @var Event */
     private $eventModel;
@@ -15,7 +15,7 @@ class EventRepository implements EventRepositoryInterface
      * construct
      * @param Event $eventModel
      */
-    public function __construct(Event $eventModel) 
+    public function __construct(Event $eventModel)
     {
         $this->eventModel = $eventModel;
     }
@@ -64,16 +64,30 @@ class EventRepository implements EventRepositoryInterface
     }
 
     /**
+     * 更新 event 資料
+     * @param int $eventId
+     * @param array $eventData
+     * @return int
+     */
+    public function updateEvent(int $eventId, array $eventData): int
+    {
+        return $this->eventModel
+            ->newQuery()
+            ->where('id', $eventId)
+            ->update($eventData);
+    }
+
+    /**
      * 刪除超過一年的 event 資料
      * @return int
      */
     public function deleteOverOneYearEvents(): int
     {
         $oneYearAgoDate = Carbon::now()->subYear();
-    
+
         return $this->eventModel
             ->newQuery()
-            ->where('created_at', '<', $oneYearAgoDate)
+            ->where('updated_at', '<', $oneYearAgoDate)
             ->update(['status' => 0,]);
     }
 }
