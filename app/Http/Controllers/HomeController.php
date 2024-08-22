@@ -57,7 +57,7 @@ class HomeController extends Controller
         ItemService $itemService,
         MemberService $memberService,
         SessionService $sessionService
-    ) 
+    )
     {
         $this->cacheService = $cacheService;
         $this->calculateAveragePriceService = $calculateAveragePriceService;

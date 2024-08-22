@@ -26,4 +26,10 @@ interface EventRepositoryInterface
      * @return Event
      */
     public function createEvent(array $eventData): Event;
+
+    /**
+     * 刪除超過一年的 event 資料
+     * @return int
+     */
+    public function deleteOverOneYearEvents(): int;
 }

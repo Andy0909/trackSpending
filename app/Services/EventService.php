@@ -58,4 +58,13 @@ class EventService
     {
         return $this->eventRepository->createEvent($eventData);
     }
+
+    /**
+     * 刪除超過一年的 event 資料
+     * @return int
+     */
+    public function deleteOverOneYearEvents(): int
+    {
+        return $this->eventRepository->deleteOverOneYearEvents();
+    }
 }
