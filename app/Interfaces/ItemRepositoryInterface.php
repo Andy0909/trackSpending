@@ -27,14 +27,6 @@ interface ItemRepositoryInterface
     public function createItem(array $itemData): Item;
 
     /**
-     * 更新 item
-     * @param int $itemId
-     * @param array $newItemData
-     * @return int
-     */
-    public function updateItem(int $itemId, array $newItemData): int;
-
-    /**
      * 刪除 item
      * @param int $eventId
      * @param int $itemId

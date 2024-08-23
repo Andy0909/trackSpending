@@ -60,20 +60,6 @@ class ItemRepository implements ItemRepositoryInterface
     }
 
     /**
-     * 更新 item
-     * @param int $itemId
-     * @param array $newItemData
-     * @return int
-     */
-    public function updateItem(int $itemId, array $newItemData): int
-    {
-        return $this->itemModel
-            ->newQuery()
-            ->where('id', $itemId)
-            ->update($newItemData);
-    }
-
-    /**
      * 刪除 item
      * @param int $eventId
      * @param int $itemId

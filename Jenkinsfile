@@ -18,6 +18,22 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    sh 'composer install --no-dev --prefer-dist --optimize-autoloader'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    sh 'php artisan test'
+                }
+            }
+        }
+
         stage('Logging into AWS ECR') {
             steps {
                 script {

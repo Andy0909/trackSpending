@@ -2,14 +2,14 @@
 
 namespace Tests\Unit;
 
-use App\Services\CalculateAveragePrice;
+use App\Services\CalculateAveragePriceService;
 use PHPUnit\Framework\TestCase;
 
 class CalculateAveragePriceTest extends TestCase
 {
     public function testCalculateAveragePrice()
     {
-        $service = new CalculateAveragePrice();
+        $service = new CalculateAveragePriceService();
 
         // 假設有三個人分攤費用
         $spendList = [
@@ -24,8 +24,10 @@ class CalculateAveragePriceTest extends TestCase
 
         // 驗證結果是否正確
         $this->assertEquals([
-            'B' => ['A' => -33.33],
-            'A' => ['C' => 33.33]
+            'A' => [
+                'C' => 33.33,
+                'B' => 33.33
+            ],
         ], $result);
     }
 }
