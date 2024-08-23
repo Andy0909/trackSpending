@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('events:delete-over-one-year')->everyFiveMinutes();
+        $schedule->command('events:delete-over-one-year')->dailyAt('01:00');
     }
 
     /**
