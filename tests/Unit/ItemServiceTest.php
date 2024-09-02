@@ -1,114 +1,120 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services;
 
-use App\Services\ItemService;
-use App\Repositories\ItemRepository;
 use App\Models\Item;
-use Carbon\Carbon;
+use App\Repositories\ItemRepository;
+use App\Services\ItemService;
 use PHPUnit\Framework\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 
 class ItemServiceTest extends TestCase
 {
-    /** @var ItemRepository */
-    private $itemRepository;
+    /** @const int 活動編號 */
+    private const EVENT_ID = 1;
 
-    /** @var ItemService */
-    private $itemService;
+    /** @const int 項目編號 */
+    private const ITEM_ID = 1;
+
+    /** @var \Mockery\MockInterface|ItemRepository $itemRepository */
+    protected $itemRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // 創建 ItemRepository 的 mock 物件
-        $this->itemRepository = $this->createMock(ItemRepository::class);
-
-        // 將 mock 物件注入到 ItemService 中
-        $this->itemService = new ItemService($this->itemRepository);
+        $this->itemRepository = Mockery::mock(ItemRepository::class);
     }
 
-    public function testGetItemByEventId()
+    public function test_getItemByEventId()
     {
-        $eventId = '1';
+        // arrange
+        $this->itemRepository
+            ->shouldReceive('getItemByEventId')
+            ->with(self::EVENT_ID)
+            ->once()
+            ->andReturn($this->getExpectedData());
 
-        $expectedItems = [
+        $itemService = new ItemService($this->itemRepository);
+
+        // act
+        $items = $itemService->getItemByEventId(self::EVENT_ID);
+
+        // assert
+        $this->assertEquals($this->getExpectedData(), $items);
+    }
+
+    private function getExpectedData()
+    {
+        return [
             new Item([
                 'id'           => 1,
-                'eventId'      => $eventId,
+                'eventId'      => self::EVENT_ID,
                 'item_name'    => '測試',
                 'price'        => '100',
                 'payer'        => '1',
                 'share_member' => '1',
-                'created_at'   => Carbon::now(),
-                'updated_at'   => Carbon::now(),
-                'item_id'      => 1,
+                'item_id'      => self::ITEM_ID,
             ]),
             new Item([
                 'id'           => 2,
-                'eventId'      => $eventId,
+                'eventId'      => self::EVENT_ID,
                 'item_name'    => '測試',
                 'price'        => '100',
                 'payer'        => '1',
                 'share_member' => '2',
-                'created_at'   => Carbon::now(),
-                'updated_at'   => Carbon::now(),
-                'item_id'      => 1,
+                'item_id'      => self::ITEM_ID,
             ]),
         ];
-
-        // 設定 Mock 行為
-        $this->itemRepository
-            ->expects($this->once())
-            ->method('getItemByEventId')
-            ->with($eventId)
-            ->willReturn($expectedItems);
-
-        // 呼叫 Service 方法並斷言結果
-        $items = $this->itemService->getItemByEventId($eventId);
-        $this->assertEquals($expectedItems, $items);
     }
 
     public function testCreateItem()
     {
-        $itemData = [
-            'eventId'      => '1',
+        // arrange
+        $this->itemRepository
+            ->shouldReceive('createItem')
+            ->with($this->getCreatedItemData())
+            ->once()
+            ->andReturn(new Item($this->getCreatedItemData()));
+
+        $itemService = new ItemService($this->itemRepository);
+
+        // act
+        $item = $itemService->createItem($this->getCreatedItemData());
+
+        // assert
+        $this->assertEquals(new Item($this->getCreatedItemData()), $item);
+    }
+
+    private function getCreatedItemData()
+    {
+        return [
+            'eventId'      => self::EVENT_ID,
             'item_name'    => '測試',
             'price'        => '100',
             'payer'        => '1',
             'share_member' => '1',
-            'item_id'      => 1,
+            'item_id'      => self::ITEM_ID,
         ];
-
-        $createdItem = new Item($itemData);
-
-        // 設定 Mock 行為
-        $this->itemRepository->expects($this->once())
-            ->method('createItem')
-            ->with($itemData)
-            ->willReturn($createdItem);
-
-        // 呼叫 Service 方法並斷言結果
-        $item = $this->itemService->createItem($itemData);
-
-        $this->assertEquals($createdItem, $item);
     }
 
     public function testDeleteItemByEventIdAndItemId()
     {
-        $eventId = 1;
-        $itemId = 1;
+        // arrange
         $expectedAffectedRows = 1;
 
-        // 模擬 repository 返回的結果
         $this->itemRepository
-            ->method('deleteItemByEventIdAndItemId')
-            ->with($eventId, $itemId)
-            ->willReturn($expectedAffectedRows);
+            ->shouldReceive('deleteItemByEventIdAndItemId')
+            ->with(self::EVENT_ID, self::ITEM_ID)
+            ->once()
+            ->andReturn($expectedAffectedRows);
 
-        // 驗證 service 的返回值
-        $affectedRows = $this->itemService->deleteItemByEventIdAndItemId($eventId, $itemId);
+        $itemService = new ItemService($this->itemRepository);
 
+        // act
+        $affectedRows = $itemService->deleteItemByEventIdAndItemId(self::EVENT_ID, self::ITEM_ID);
+
+        // assert
         $this->assertEquals($expectedAffectedRows, $affectedRows);
     }
 }
