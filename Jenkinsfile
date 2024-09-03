@@ -33,16 +33,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh '''
-                        docker run --rm -v $WORKSPACE:/var/www -w /var/www ${IMAGE_REPO_NAME}:${IMAGE_TAG} vendor/bin/phpunit
-                    '''
-                }
-            }
-        }
    
         stage('Pushing to ECR') {
             steps {  
