@@ -19,7 +19,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # 安裝 Laravel 相依套件
-RUN composer install --no-dev --optimize-autoloader --no-scripts --no-cache
+RUN composer install --optimize-autoloader --no-scripts --no-cache
 
 # 設置文件權限
 RUN chown -R www-data:www-data /var/www \
@@ -32,7 +32,7 @@ RUN php artisan view:clear \
     && php artisan cache:clear
 
 # 執行測試
-RUN ./vendor/bin/phpunit
+RUN php artisan test
 
 # 定義掛載點
 VOLUME ["/var/www"]
