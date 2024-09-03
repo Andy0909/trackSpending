@@ -25,6 +25,9 @@ RUN composer install --optimize-autoloader --no-scripts --no-cache
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 777 /var/www/storage
 
+# 生成應用程序密鑰
+RUN php artisan key:generate
+
 # 清除 Laravel 緩存
 RUN php artisan view:clear \
     && php artisan route:clear \
