@@ -25,7 +25,10 @@ class EventServiceTest extends TestCase
         $this->cacheService = Mockery::mock(CacheService::class);
     }
 
-    public function test_getEventById()
+    /**
+     * @return void
+     */
+    public function test_getEventById(): void
     {
         // arrange
         $eventId = 1;
@@ -54,7 +57,10 @@ class EventServiceTest extends TestCase
         $this->assertEquals($event, $result);
     }
 
-    public function test_getEventByUserId()
+    /**
+     * @return void
+     */
+    public function test_getEventByUserId(): void
     {
         // arrange
         $userId = 1;
@@ -78,7 +84,10 @@ class EventServiceTest extends TestCase
         $this->assertEquals($events, $result);
     }
 
-    public function test_createEvent()
+    /**
+     * @return void
+     */
+    public function test_createEvent(): void
     {
         // arrange
         $eventData = ['name' => 'New Event'];
@@ -99,7 +108,10 @@ class EventServiceTest extends TestCase
         $this->assertEquals($event, $result);
     }
 
-    public function test_updateEvent()
+    /**
+     * @return void
+     */
+    public function test_updateEvent(): void
     {
         // arrange
         $eventId = 1;
@@ -121,7 +133,10 @@ class EventServiceTest extends TestCase
         $this->assertEquals($affectedRows, $result);
     }
 
-    public function test_deleteOverOneYearEvents()
+    /**
+     * @return void
+     */
+    public function test_deleteOverOneYearEvents(): void
     {
         // arrange
         $affectedRows = 10;

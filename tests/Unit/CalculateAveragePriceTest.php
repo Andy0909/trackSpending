@@ -7,7 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class CalculateAveragePriceTest extends TestCase
 {
-    public function testCalculateAveragePrice()
+    /**
+     * @return void
+     */
+    public function test_calculateAveragePrice(): void
     {
         $service = new CalculateAveragePriceService();
 

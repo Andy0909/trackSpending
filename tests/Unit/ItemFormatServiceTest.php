@@ -23,7 +23,10 @@ class ItemsFormatServiceTest extends TestCase
         $this->memberService = Mockery::mock(MemberService::class);
     }
 
-    public function test_formatItems()
+    /**
+     * @return void
+     */
+    public function test_formatItems(): void
     {
         // Arrange
         $items = new Collection([

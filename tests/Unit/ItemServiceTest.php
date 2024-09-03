@@ -26,7 +26,10 @@ class ItemServiceTest extends TestCase
         $this->itemRepository = Mockery::mock(ItemRepository::class);
     }
 
-    public function test_getItemByEventId()
+    /**
+     * @return void
+     */
+    public function test_getItemByEventId(): void
     {
         // arrange
         $this->itemRepository
@@ -44,7 +47,10 @@ class ItemServiceTest extends TestCase
         $this->assertEquals($this->getExpectedData(), $items);
     }
 
-    private function getExpectedData()
+    /**
+     * @return Item[]
+     */
+    private function getExpectedData(): array
     {
         return [
             new Item([
@@ -68,7 +74,10 @@ class ItemServiceTest extends TestCase
         ];
     }
 
-    public function testCreateItem()
+    /**
+     * @return void
+     */
+    public function test_createItem(): void
     {
         // arrange
         $this->itemRepository
@@ -86,7 +95,10 @@ class ItemServiceTest extends TestCase
         $this->assertEquals(new Item($this->getCreatedItemData()), $item);
     }
 
-    private function getCreatedItemData()
+    /**
+     * @return array
+     */
+    private function getCreatedItemData(): array
     {
         return [
             'eventId'      => self::EVENT_ID,
@@ -98,7 +110,10 @@ class ItemServiceTest extends TestCase
         ];
     }
 
-    public function testDeleteItemByEventIdAndItemId()
+    /**
+     * @return void
+     */
+    public function test_deleteItemByEventIdAndItemId(): void
     {
         // arrange
         $expectedAffectedRows = 1;

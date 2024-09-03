@@ -30,7 +30,10 @@ class MemberServiceTest extends TestCase
         $this->memberRepository = Mockery::mock(MemberRepository::class);
     }
 
-    public function test_getMemberById()
+    /**
+     * @return void
+     */
+    public function test_getMemberById(): void
     {
         // arrange
         $expectedMember = $this->getExpectedMemberData();
@@ -50,7 +53,10 @@ class MemberServiceTest extends TestCase
         $this->assertEquals($expectedMember, $member);
     }
 
-    public function test_createMember()
+    /**
+     * @return void
+     */
+    public function test_createMember(): void
     {
         // arrange
         $memberData = $this->getCreateMemberData();
@@ -71,6 +77,9 @@ class MemberServiceTest extends TestCase
         $this->assertEquals($expectedMember, $member);
     }
 
+    /**
+     * @return Member
+     */
     private function getExpectedMemberData(): Member
     {
         return new Member([
@@ -80,6 +89,9 @@ class MemberServiceTest extends TestCase
         ]);
     }
 
+    /**
+     * @return array
+     */
     private function getCreateMemberData(): array
     {
         return [
