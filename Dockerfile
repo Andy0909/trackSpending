@@ -19,23 +19,17 @@ WORKDIR /var/www
 COPY . /var/www
 
 # 安裝 Laravel 相依套件
-RUN composer install --optimize-autoloader --no-scripts --no-cache
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-cache
 
 # 設置文件權限
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 777 /var/www/storage
-
-# 生成應用程序密鑰
-RUN php artisan key:generate
 
 # 清除 Laravel 緩存
 RUN php artisan view:clear \
     && php artisan route:clear \
     && php artisan config:clear \
     && php artisan cache:clear
-
-# 執行測試
-RUN php artisan test
 
 # 定義掛載點
 VOLUME ["/var/www"]
