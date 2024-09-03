@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run --rm ${IMAGE_REPO_NAME}:${IMAGE_TAG} vendor/bin/phpunit
+                        docker run --rm -v $WORKSPACE:/var/www -w /var/www ${IMAGE_REPO_NAME}:${IMAGE_TAG} vendor/bin/phpunit
                     '''
                 }
             }
