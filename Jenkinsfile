@@ -18,10 +18,25 @@ pipeline {
             }
         }
 
+        stage('Setup') {
+            steps {
+                script {
+                    // Install PHP and Composer
+                    sh '
+                        # Update package list and install necessary tools
+                        apt-get update
+                        apt-get install -y php php-cli php-mbstring unzip curl git
+
+                        # Install Composer
+                        curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+                    '
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 script {
-                    sh 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
                     sh 'composer install --no-dev --prefer-dist --optimize-autoloader'
                 }
             }
@@ -30,7 +45,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh 'vendor/bin/phpunit tests/Unit'
+                    sh 'php artisan test'
                 }
             }
         }
