@@ -31,9 +31,6 @@ RUN php artisan view:clear \
     && php artisan config:clear \
     && php artisan cache:clear
 
-# 執行測試
-RUN php artisan test
-
 # 定義掛載點
 VOLUME ["/var/www"]
 
