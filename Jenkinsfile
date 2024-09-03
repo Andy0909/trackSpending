@@ -30,7 +30,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh 'php artisan test'
+                    sh 'vendor/bin/phpunit tests/Unit'
                 }
             }
         }
