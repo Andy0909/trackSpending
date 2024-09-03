@@ -32,7 +32,7 @@ RUN php artisan view:clear \
     && php artisan cache:clear
 
 # 執行測試
-RUN php artisan test
+RUN ./vendor/bin/phpunit
 
 # 定義掛載點
 VOLUME ["/var/www"]
