@@ -15,7 +15,8 @@
                                     <th scope="col">價錢</th>
                                     <th scope="col">支付者</th>
                                     <th scope="col">平分者</th>
-                                    <th scope="col">操作</th>
+                                    <th scope="col">編輯</th>
+                                    <th scope="col">刪除</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,6 +30,14 @@
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popupModal" 
                                                 data-item='@json($item)' onclick="editRecord(this)">編輯
                                             </button>
+                                        </td>
+                                        <td>
+                                            <form action="/deleteItem" method="POST">
+                                                @csrf
+                                                <input type="hidden" id="eventId" name="eventId" value="{{ $item['eventId'] }}">
+                                                <input type="hidden" id="itemId" name="itemId" value="{{ $item['itemId'] }}">
+                                                <button type="submit" id="deleteSubmit" class="btn btn-danger">刪除</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -54,7 +54,7 @@
                 <!-- Contact Section Form -->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="eventForm" action="/createEvent" method="POST">
+                        <form id="eventForm" action="/createEvent" method="POST" onsubmit="disableButton()">
                             @csrf
                             <!-- Date input -->
                             <div class="form-floating mb-3">
@@ -79,7 +79,7 @@
                             <button id="addMember" type="button" class="btn btn-primary btn-circle btn-lg" style="margin-bottom: 30px">+</button>
 
                             <!-- Submit Button -->
-                            <div><center><input class="btn btn-primary" id="submit" type="submit" value="Send"></center></div>
+                            <div><center><input class="btn btn-primary" id="submit" type="submit" value="新增"></center></div>
                         </form>
                     </div>
                 </div>

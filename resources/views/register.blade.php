@@ -35,7 +35,7 @@
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="register" action="/register" method="POST">
+                        <form id="register" action="/register" method="POST" onsubmit="disableButton()">
                             @csrf
                             <!-- Name input-->
                             <div class="form-floating mb-3">

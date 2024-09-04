@@ -34,3 +34,11 @@ $('#socialLogin').click(function() {
         $('#socialLoginCollapse').show();
     }
 });
+
+function disableButton() {
+    $('#submit').prop('disabled', true);
+}
+
+function disableUpdateButton() {
+    $('#updateSubmit').prop('disabled', true);
+}

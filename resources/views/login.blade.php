@@ -39,7 +39,7 @@
                 <!-- Contact Section Form-->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="login" action="/login" method="POST">
+                        <form id="login" action="/login" method="POST" onsubmit="disableButton()">
                             @csrf
                             <!-- Email input-->
                             <div class="form-floating mb-3">

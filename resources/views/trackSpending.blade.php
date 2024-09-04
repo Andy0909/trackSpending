@@ -147,7 +147,7 @@
                 <!-- createRecord Section Form -->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <form id="newItemForm" action="/createItem" method="POST">
+                        <form id="newItemForm" action="/createItem" method="POST" onsubmit="disableButton()">
                             @csrf
 
                             <input class="form-control" id="eventId" name="eventId" type="hidden" value="{{$eventId}}" required/>
@@ -191,7 +191,7 @@
                             </select>
 
                             <!-- Submit Button -->
-                            <div><center><input class="btn btn-primary" style="margin-top: 5%" id="submit" type="submit" value="Send"></center></div>
+                            <div><center><input class="btn btn-primary" style="margin-top: 5%" id="submit" type="submit" value="新增"></center></div>
                         </form>
                     </div>
                 </div>

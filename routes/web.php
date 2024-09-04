@@ -39,6 +39,7 @@ Route::post('/createEvent', [HomeController::class , 'createEventProcess'])->nam
 Route::match(['get', 'post'], '/trackSpending', [HomeController::class, 'trackSpendingPage'])->name('trackSpendingPage');
 Route::post('/createItem', [HomeController::class , 'createItemProcess'])->name('createItemProcess');
 Route::post('/updateItem', [HomeController::class , 'updateItemProcess'])->name('updateItemProcess');
+Route::post('/deleteItem', [HomeController::class , 'deleteItemProcess'])->name('deleteItemProcess');
 
 // github 第三方登入
 Route::get('/login/github', [AuthController::class, 'redirectToGithub'])->name('login.github');

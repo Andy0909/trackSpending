@@ -6,7 +6,7 @@
                 <h5 class="modal-title" id="popupModalTitle"></h5>
             </div>
             <div class="modal-body" id="popupModalContent">
-                <form action="/updateItem" method="POST">
+                <form action="/updateItem" method="POST" onsubmit="disableUpdateButton()">
                     @csrf
                     <input type="hidden" id="eventId" name="eventId" value={{$eventId}}>
                     <input type="hidden" id="itemId" name="itemId">
@@ -40,7 +40,7 @@
 
                     <div class="modal-footer" style="margin-top: 10%">
                         <center>
-                            <button type="submit" id="submit" class="btn btn-primary" data-dismiss="modal" onclick="update()">更新</button>
+                            <button type="submit" id="updateSubmit" class="btn btn-primary" data-dismiss="modal">更新</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="popupClose()">取消</button>
                         </center>
                     </div>
@@ -54,7 +54,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- popup.js -->
-<script src="{{ asset('js/popup.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/popup.js') }}"></script>
+<script src="{{ asset('js/trackSpending.js') }}"></script>
 
 <script>
     new MultiSelectTag('updateAverage')  //id
