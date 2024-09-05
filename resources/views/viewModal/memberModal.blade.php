@@ -10,7 +10,7 @@
                             <tbody>
                                 @foreach ($eventMember as $key => $member)
                                 <tr>
-                                    <td>{{$member['name']}}</td>
+                                    <td style="text-align: center;">{{$member['name']}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

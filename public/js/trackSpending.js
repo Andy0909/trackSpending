@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+    $("#event").change(function() {
+        $("#postEventId").submit();
+    });
+
     $('#addMember').click(function() {
         let newMemberEntry = `
             <div class="form-floating mb-3 d-flex align-items-center member-entry">
@@ -15,25 +20,9 @@ $(document).ready(function() {
     });
 });
 
-$("#event").change(function() {
-    $("#postEventId").submit();
-});
-
 function logout() {
     $("#logout").submit();
 }
-
-$('#socialLogin').click(function() {
-    var isExpanded = $(this).attr('aria-expanded') === 'true';
-    
-    if (isExpanded) {
-        $(this).attr('aria-expanded', 'false');
-        $('#socialLoginCollapse').hide();
-    } else {
-        $(this).attr('aria-expanded', 'true');
-        $('#socialLoginCollapse').show();
-    }
-});
 
 function disableButton() {
     $('#submit').prop('disabled', true);

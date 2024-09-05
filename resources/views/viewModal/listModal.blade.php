@@ -10,7 +10,7 @@
                     <div class="row justify-content-center">
                         <table class="table table-hover" id="listTable">
                             <thead>
-                                <tr>
+                                <tr style="text-align: center;">
                                     <th scope="col">項目</th>
                                     <th scope="col">價錢</th>
                                     <th scope="col">支付者</th>
@@ -19,7 +19,7 @@
                                     <th scope="col">刪除</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="text-align: center;">
                                 @foreach ($formattedItems as $key => $item)
                                     <tr data-event-id="{{ $item['eventId'] }}">
                                         <td>{{ $item['itemName'] }}</td>

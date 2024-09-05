@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    @extends('header')
+@extends('layout')
+
+@section('content')
     <body id="page-top">
 
         <!-- 有錯誤訊息就用 alert 提醒 -->
@@ -13,14 +13,14 @@
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="/">分帳軟體</a>
+                <a class="navbar-brand" href="/">分帳平台</a>
             </div>
         </nav>
 
         <!-- Masthead -->
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">歡迎使用分帳軟體</h2>
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">歡迎使用分帳平台</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -45,15 +45,12 @@
                         <div style="margin-bottom:10px; color:#888888">或快速登入</div>
                         <div>  
                             <a href="{{ route('login.google') }}"><img src="{{ asset('assets/img/google.jpg') }}" style="width:50px;" alt="google"></a>
-                            <a href="{{ route('login.github') }}"><img src="{{ asset('assets/img/github.png') }}" style="width:50px;" alt="github"></a>
+                            <!-- <a href="{{ route('login.github') }}"><img src="{{ asset('assets/img/github.png') }}" style="width:50px;" alt="github"></a> -->
                         </div>
                         </center>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        @extends('footer')
     </body>
-</html>
+@endsection

@@ -1,6 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    @extends('header')
+@extends('layout')
+
+@section('keywords', '分帳結果, 分帳平台, 分帳服務')
+@section('description', '在 WeiTech 分帳平台查看您的分帳結果，幫助您更好地管理個人和團體的開支。')
+@section('title', '分帳結果 - WeiTech分帳平台')
+@section('content')
     <body id="page-top">
 
         <!-- 有錯誤訊息就用 alert 提醒 -->
@@ -204,10 +207,8 @@
         @extends('viewModal/listModal')
         <!-- spend Modal -->
         @extends('viewModal/spendModal')
-        <!-- Footer-->
-        @extends('footer')
         <!-- Multi Select -->
-        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js?v=<?= time(); ?>"></script>
+        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
         <script> new MultiSelectTag('average')  //id </script>
     </body>
-</html>
+@endsection

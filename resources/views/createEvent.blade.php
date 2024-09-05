@@ -1,6 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    @extends('header')
+@extends('layout')
+
+@section('keywords', '新增分帳紀錄, 分帳工具, 分帳平台, 分帳管理, 記錄支出, 分帳服務')
+@section('description', '在 WeiTech 分帳平台新增分帳紀錄，快速輕鬆地管理和記錄您的支出。')
+@section('title', '新增分帳紀錄 - WeiTech分帳平台')
+@section('content')
     <body id="page-top">
 
         <!-- 有錯誤訊息就用 alert 提醒 -->
@@ -85,7 +88,5 @@
                 </div>
             </div>
         </section>
-        <!-- Footer -->
-        @extends('footer')
     </body>
-</html>
+@endsection

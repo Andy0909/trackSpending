@@ -7,7 +7,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <table class="table table-hover">
-                            <tbody>
+                            <tbody style="text-align: center;">
                                 @foreach ($averageResult as $payer => $item)
                                     @foreach ($item as $shareMember => $value)
                                         <tr>

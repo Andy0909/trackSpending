@@ -56,7 +56,7 @@
 <!-- popup.js -->
 <script src="{{ asset('js/popup.js') }}"></script>
 <script src="{{ asset('js/trackSpending.js') }}"></script>
-
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
 <script>
     new MultiSelectTag('updateAverage')  //id
 </script>

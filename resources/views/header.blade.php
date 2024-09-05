@@ -1,9 +1,18 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
+    <meta name="keywords" content="@yield('keywords', '分帳, 分帳平台, 免費分帳, 分帳工具, 分帳服務, 快速分帳, 朋友分帳, 出遊分帳')" />
+    <meta name="description" content="@yield('description', 'WeiTech分帳平台，免費提供簡單易用的分帳工具，幫助你快速分攤支出。無論是朋友聚會還是日常生活，我們的分帳平台讓一切更加輕鬆！')">
     <meta name="author" content="" />
-    <title>Track Spending</title>
+    <title>@yield('title', 'WeiTech分帳平台 | 免費、簡單的分帳服務')</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="@yield('title', 'WeiTech分帳平台 | 免費、簡單的分帳服務')" />
+    <meta property="og:description" content="@yield('description', 'WeiTech分帳平台，免費提供簡單易用的分帳工具，幫助你快速分攤支出。無論是朋友聚會還是日常生活，我們的分帳平台讓一切更加輕鬆！')" />
+    <meta property="og:image" content="{{ asset('favicon.ico') }}" />
+    <meta property="og:url" content="{{ url('/') }}" />
+    <meta property="og:type" content="website" />
+
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->

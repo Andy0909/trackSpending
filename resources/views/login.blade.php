@@ -1,11 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-    @extends('header')
+@extends('layout')
+
+@section('keywords', '登入, WeiTech分帳平台, 用戶登入')
+@section('description', '在WeiTech分帳平台登入您的帳戶，管理分帳記錄，快速且安全地處理個人支出。')
+@section('title', '登入 - WeiTech分帳平台')
+@section('content')
     <body id="page-top">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="/login">分帳軟體</a>
+                <a class="navbar-brand" href="/">分帳軟體</a>
             </div>
         </nav>
         <!-- Masthead-->
@@ -60,7 +63,6 @@
                 </div>
             </div>
         </section>
-        <!-- Footer-->
-        @extends('footer')
     </body>
-</html>
+@endsection
+
